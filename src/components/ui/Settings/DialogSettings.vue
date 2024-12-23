@@ -5,10 +5,7 @@ import SettingTheme from "./SettingTheme.vue"
 import SettingAppSize from "./SettingAppSize.vue"
 import SettingLanguage from "./SettingLanguage.vue"
 import SettingMainTitle from "./SettingMainTitle.vue"
-// import SettingExportOnLoad from "./SettingExportOnLoad.vue"
-// import SettingInitWithData from "./SettingInitWithData.vue"
-// import SettingDeleteDB from "./SettingDeleteDB.vue"
-// import SettingBase64 from "./SettingBase64.vue"
+import SettingDeleteDB from "./SettingDeleteDB.vue"
 
 import {
   DialogClose,
@@ -26,6 +23,7 @@ import {
 } from "reka-ui"
 
 import Tooltip from "@/components/ui/Tooltip.vue"
+import { useModalStore } from "@/stores/modal"
 
 import { useCounterStore } from "@/stores/counter"
 import { storeToRefs } from "pinia"
@@ -34,16 +32,13 @@ import { useMagicKeys, whenever } from "@vueuse/core"
 import { X, Settings2 } from "lucide-vue-next"
 import { useIsMobile } from "@/composables/useIsMobile"
 import { useI18n } from "vue-i18n"
-import SettingExportDB from "./SettingExportDB.vue"
-import SettingShortcuts from "./SettingShortcuts.vue"
 
+const modal = useModalStore()
 const counter = useCounterStore()
 const { isMobile } = useIsMobile()
-
 const keys = useMagicKeys()
 const magicSettings = keys["ctrl+alt+w"]
-const { showSettings } = storeToRefs(counter)
-
+const { showSettings } = storeToRefs(modal)
 const { t } = useI18n()
 
 whenever(magicSettings, (n) => {
@@ -91,18 +86,19 @@ whenever(magicSettings, (n) => {
                 <SettingTheme />
                 <SettingAppSize />
                 <SettingMainTitle />
-                <SettingShortcuts />
+                <!-- <SettingShortcuts /> -->
                 <h4 class="mt-2 mb-0 text-xs text-primary">
                   {{ t("settings.database") }}
                 </h4>
-                <SettingExportDB />
-                <!-- <SettingBase64 />
+                <!-- <SettingExportDB /> -->
+                <!--
+                <SettingBase64 />
                 <SettingExportOnLoad />
                 <SettingInitWithData /> -->
                 <h4 class="mt-2 mb-0 text-xs text-red-600">
                   {{ t("settings.attention") }}
                 </h4>
-                <!-- <SettingDeleteDB /> -->
+                <SettingDeleteDB />
               </div>
             </article>
           </ScrollAreaViewport>

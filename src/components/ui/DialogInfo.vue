@@ -13,16 +13,15 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "reka-ui"
-import Tooltip from "@/components/ui/Tooltip.vue"
 
 import { ref } from "vue"
-import { useCounterStore } from "@/stores/counter"
+import { useModalStore } from "@/stores/modal"
 
 import { useMagicKeys, whenever } from "@vueuse/core"
-import { CircleHelp, X } from "lucide-vue-next"
+import { X } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
 
-const counter = useCounterStore()
+const modal = useModalStore()
 const open = ref(false)
 const keys = useMagicKeys()
 const magicAbout = keys["ctrl+alt+q"]
@@ -34,7 +33,7 @@ whenever(magicAbout, (n) => {
 </script>
 
 <template>
-  <DialogRoot v-model:open="counter.showInfoModal">
+  <DialogRoot v-model:open="modal.showInfoModal">
     <!-- <Tooltip
       :name="t('sidebar.about')"
     >

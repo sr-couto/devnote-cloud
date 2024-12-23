@@ -55,12 +55,12 @@
   },
   "sidebar": {
     "newDocument": "New document",
-    "search": "Filter by title",
+    "search": "Filter...",
     "navigation": "App Navigation",
     "noResults": "No results",
     "noResultsDescription": "No results for this search",
     "sort": {
-      "sort": "Sort",
+      "sort": "Sort by",
       "name": "Title",
       "date": "Date"
     },
@@ -139,7 +139,10 @@
     "unsavedChanges": "Has unsaved changes",
     "unsavedChangesDescription": "Curent document has changes that are not saved in indexededDb. Do you wish to continue and descart changes?",
     "discardChanges": "Discard changes",
-    "continueEditing": "Continue editing"
+    "continueEditing": "Continue editing",
+    "logoutTitle": "Logout",
+    "logoutDescription": "Are you sure you want to log out? This action will also clean up your device's IndexedDB. Documents will still be saved in DexieCloud.",
+    "logoutDestructiveButton": "Logout and Clean Up"
   },
   "tour": {
     "tutorialTitle": "Tutorial 👋",

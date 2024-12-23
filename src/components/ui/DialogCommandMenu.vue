@@ -179,30 +179,6 @@ function focusOnSidebar() {
                 <span>{{ t("sidebar.newDocument") }}</span>
               </ComboboxItem>
               <ComboboxItem
-                value="importar db"
-                @select="modal.showImportModal = true"
-                class="cursor-default justify-between font-mono text-xs px-4 py-2 rounded-md data-[highlighted]:bg-muted inline-flex w-full items-center gap-4"
-              >
-                <span class="text-foreground">{{ t("settings.import") }}</span>
-                <span
-                  class="inline-flex bg-primary text-primary-foreground px-1 rounded p-0.5 !text-xs"
-                >
-                  <kbd>ctrl alt I</kbd>
-                </span>
-              </ComboboxItem>
-              <ComboboxItem
-                value="exportar db"
-                @select="modal.showShareModal = true"
-                class="cursor-default justify-between font-mono text-xs px-4 py-2 rounded-md data-[highlighted]:bg-muted inline-flex w-full items-center gap-4"
-              >
-                <span class="text-foreground">{{ t("settings.export") }}</span>
-                <span
-                  class="inline-flex bg-primary text-primary-foreground px-1 rounded p-0.5 !text-xs"
-                >
-                  <kbd>ctrl alt E</kbd>
-                </span>
-              </ComboboxItem>
-              <ComboboxItem
                 :value="`${t('verb.open')} ${t('settings.title')}`"
                 @select="showSettings()"
                 class="cursor-default font-mono text-xs px-4 py-2 rounded-md data-[highlighted]:bg-muted inline-flex w-full items-center gap-4"
@@ -248,7 +224,7 @@ function focusOnSidebar() {
                 <span
                   class="inline-flex bg-primary text-primary-foreground px-1 rounded p-0.5 !text-xs"
                 >
-                  <kbd>ctrl shift alt &darr;</kbd>
+                  <kbd>ctrl shift alt e</kbd>
                 </span>
               </ComboboxItem>
             </ComboboxGroup>

@@ -3,11 +3,16 @@ import DriverJsInit from "@/stores/Tour.ts"
 
 import { Plane } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
+import { useModalStore } from "@/stores/modal"
+
 import { useCounterStore } from "@/stores/counter"
 import { storeToRefs } from "pinia"
 
 const counter = useCounterStore()
-const { showSettings, content_editable } = storeToRefs(counter)
+const modal = useModalStore()
+
+const { content_editable } = storeToRefs(counter)
+const { showSettings } = storeToRefs(modal)
 
 const { t } = useI18n()
 

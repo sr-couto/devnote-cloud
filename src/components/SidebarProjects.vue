@@ -2,83 +2,61 @@
 import NumberFlow from "@number-flow/vue"
 import SearchItem from "./SearchItem.vue"
 import SearchItemChecked from "./SearchItemChecked.vue"
-import SelectSort from "@/components/ui/SelectSort.vue"
 import ButtonCreateDocument from "@/components/ui/ButtonCreateDocument.vue"
-// import EditDatabaseTitle from "@/components/ui/EditDatabaseTitle.vue";
-
-import { computed, watch, shallowRef, ref } from "vue"
-import { storeToRefs } from "pinia"
-import { useCounterStore } from "@/stores/counter"
 import { useFocusStore } from "@/stores/focus"
-
-import { onClickOutside, refDebounced, useStorage } from "@vueuse/core"
-import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from "reka-ui"
-import { CircleX } from "lucide-vue-next"
-import { useI18n } from "vue-i18n"
+import { useCounterStore } from "@/stores/counter"
 import { allItemsTodo, allItemsChecked } from "@/composables/queries"
-
+import { storeToRefs } from "pinia"
+import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from "reka-ui"
+import { ArrowDown, ArrowUp } from "lucide-vue-next"
+import { useI18n } from "vue-i18n"
+import { useIsMobile } from "@/composables/useIsMobile"
 const focus = useFocusStore()
-const target = shallowRef(null)
-const editing = shallowRef(false)
+const { isMobile } = useIsMobile()
 const counter = useCounterStore()
-const { searchTerm, file_name } = storeToRefs(counter)
 const { focusDocuments } = storeToRefs(focus)
-
-const sortOption = useStorage("sortItemsBy", "name")
-const focusSearch = ref(null)
-const debounced = refDebounced(searchTerm, 300)
-const input = shallowRef(file_name)
 const { t } = useI18n()
-
-onClickOutside(target, () => {
-  editing.value = false
-})
-
-function clearTerm() {
-  searchTerm.value = ""
-  focusSearch.value.focus()
-}
-
-watch(input, (v) => {
-  if (v) counter.update_database(input.value)
-  counter.auto_save()
-})
-
-const results = computed(() => {
-  if (!Array.isArray(allItemsTodo.value)) {
-    return []
-  }
-
-  const sortedItems = [...allItemsTodo.value].sort((a, b) => {
-    const aFixed = a.project_data?.fixed ?? false
-    const bFixed = b.project_data?.fixed ?? false
-
-    if (aFixed !== bFixed) {
-      return bFixed - aFixed
-    }
-
-    if (sortOption.value === "name") {
-      return a.project_data?.name.localeCompare(b.project_data?.name)
-    } else if (sortOption.value === "date") {
-      return new Date(a.project_data?.date) - new Date(b.project_data?.date)
-    }
-    return 0
-  })
-
-  return debounced.value === "" ?
-      sortedItems
-    : sortedItems.filter((item) => {
-        return item.project_data?.name.toLowerCase().includes(debounced.value.toLowerCase())
-      })
-})
 </script>
 
 <template>
   <div class="h-full @container">
-    <!-- <EditDatabaseTitle /> -->
     <ButtonCreateDocument />
-
-    <div class="relative grid grid-cols-3 w-full gap-1 pl-1.5 pr-1 p-0.5 text-xs">
+    <div
+      class="flex pl-2 pr-1.5 py-1.5 mt-2 focus-within:border-primary bg-primary/10 border-t border-b border-secondary justify-between items-center"
+    >
+      <h2
+        class="text-xs outline-none text-primary flex justify-start items-center gap-1"
+        ref="focusDocuments"
+        tabindex="-1"
+      >
+        {{ t("commandBar.documents") }}
+        <NumberFlow
+          class="bg-primary font-mono font-bold text-primary-foreground size-4 rounded flex justify-center items-center"
+          :value="`${allItemsTodo ? allItemsTodo?.length : 0}`"
+        />
+      </h2>
+      <div
+        v-if="!isMobile"
+        class="shrink-0 flex justify-end gap-2 opacity-60 text-xs text-foreground"
+      >
+        <kbd class="scale-90">ctrl</kbd>
+        <button
+          @click="counter.navigateDocument('prev')"
+          class="flex justify-center  items-center bg-background"
+        >
+          <ArrowUp class="size-4 opacity-80" />
+          <span class="sr-only">Navigate prev</span>
+        </button>
+        <button
+          @click="counter.navigateDocument('next')"
+          class="flex justify-center  items-center bg-background"
+        >
+          <ArrowDown class="size-4 opacity-80" />
+          <span class="sr-only">Navigate next</span>
+        </button>
+      </div>
+    </div>
+    <!-- <div class="relative grid w-full gap-1 pl-1.5 pr-1 p-0.5 text-xs">
       <div
         class="relative flex items-center justify-between w-full col-span-2 border border-secondary"
         v-auto-animate="{ duration: 300 }"
@@ -113,24 +91,20 @@ const results = computed(() => {
           <span class="sr-only">Results</span>
         </div>
       </div>
+    </div> -->
 
-      <div class="shrink-0">
-        <SelectSort />
-      </div>
-    </div>
-    <h2 ref="focusDocuments" tabindex="-1" class="sr-only">Documents lists</h2>
     <div class="overflow-y-auto pl-1 SidebarProjects overflow-x-hidden h-[calc(100dvh-13rem)]">
       <ScrollAreaRoot class="w-full h-full rounded overflow-hidden" style="--scrollbar-size: 10px">
         <ScrollAreaViewport class="w-full h-full rounded">
           <div
             class="py-1 px-0.5 flex flex-col justify-start items-start relative gap-1 w-full min-h-24"
-            v-if="results?.length + allItemsChecked?.length >= 1"
+            v-if="allItemsTodo"
           >
-            <SearchItem v-for="item in results" :key="item.id" :data="item" />
+            <SearchItem v-for="item in allItemsTodo" :key="item.id" :data="item" />
             <SearchItemChecked v-for="item in allItemsChecked" :key="item.id" :data="item" />
           </div>
           <div
-            v-if="results?.length + allItemsChecked?.length === 0"
+            v-if="allItemsTodo?.length + allItemsChecked?.length === 0"
             class="w-full h-[calc(100vh-20rem)] text-center flex items-center justify-center"
           >
             <p class="w-40 text-xs text-muted-foreground text-pretty">

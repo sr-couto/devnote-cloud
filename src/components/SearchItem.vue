@@ -62,7 +62,7 @@ function toggleFixed(item, isFixed) {
 
 <template>
   <div class="relative flex items-center justify-between w-full pr-3 h-7 md:pr-2">
-    <Tooltip
+    <!-- <Tooltip
       side="top"
       :name="`${props.data.project_data?.fixed ? t('verb.unfixed') : t('verb.fixed')}`"
     >
@@ -80,10 +80,10 @@ function toggleFixed(item, isFixed) {
           }}</span>
         </button>
       </div>
-    </Tooltip>
+    </Tooltip> -->
     <button
-      class="flex interactive hover:!text-primary px-2 h-6 w-full items-center outline-none justify-start text-sm text-left focus-within:ring-1 ring-primary"
-      :class="loaded_id === props.data.id ? 'text-primary' : ''"
+      class="flex interactive hover:!text-primary px-0.5 h-6 w-full items-center outline-none justify-start text-sm text-left focus-within:ring-1 ring-primary"
+      :class="loaded_id === props.data.id ? 'text-primary underline underline-offset-4 decoration-primary/50' : ''"
       @click="confirmSetDocument(props.data.id)"
       @dblclick="counter.toggleEditable()"
     >
@@ -91,8 +91,8 @@ function toggleFixed(item, isFixed) {
         <template v-if="props.data.project_data?.name">
           <span class="sr-only">{{ t("verb.open") }}</span>
           {{
-            props.data.project_data?.name.length > 25 ?
-              props.data.project_data?.name.substring(0, 25) + "&hellip;"
+            props.data.project_data?.name.length > 30 ?
+              props.data.project_data?.name.substring(0, 30) + "&hellip;"
             : props.data.project_data?.name
           }}
           <span class="sr-only">document in editor</span>

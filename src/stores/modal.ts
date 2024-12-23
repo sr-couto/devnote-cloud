@@ -7,6 +7,7 @@ export const useModalStore = defineStore("modal", () => {
   const showShareModal = ref(false)
   const showInfoModal = ref(false)
   const showAlertUnsavedChanges = ref(false)
+  const showAlertLogout = ref(false)
   const showSettings = ref(false)
   const showCommandBar = ref(false)
   return {
@@ -14,6 +15,7 @@ export const useModalStore = defineStore("modal", () => {
     showShareModal,
     showInfoModal,
     showAlertUnsavedChanges,
+    showAlertLogout,
     showSettings,
     showCommandBar,
   }

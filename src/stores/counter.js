@@ -215,7 +215,7 @@ export const useCounterStore = defineStore("counter", () => {
     if (nextDoc) {
       if (hasUnsavedChanges()) {
         selectedId.value = nextDoc.id
-        showAlertDialog.value = true
+        modal.showAlertDialog.value = true
         return
       }
       set_project(nextDoc.id)

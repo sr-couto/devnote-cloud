@@ -60,7 +60,7 @@
     "noResults": "Sin resultados",
     "noResultsDescription": "Aqui se mostrarán tus documentos",
     "sort": {
-      "sort": "Ordenar",
+      "sort": "Ordenar por",
       "name": "Nombre",
       "date": "Fecha"
     },
@@ -139,7 +139,10 @@
     "unsavedChanges": "Cambios sin guardar",
     "unsavedChangesDescription": " El documento actual tiene cambios sin guardar. ¿Quieres continuar y descartar los cambios?",
     "discardChanges": " Descartar cambios",
-    "continueEditing": "Continuar editando"
+    "continueEditing": "Continuar editando",
+    "logoutTitle": "Cerrar sesión",
+    "logoutDescription": "¿Estás seguro de que deseas cerrar sesión? Esta acción también limpiará el IndexedDB de tu dispositivo. Los documentos seguiran guardados en DexieCloud",
+    "logoutDestructiveButton": "Cerrar sesión y limpiar"
   },
   "tour": {
     "tutorialTitle": "Tutorial 👋",

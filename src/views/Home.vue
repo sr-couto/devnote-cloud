@@ -16,8 +16,8 @@ const counter = useCounterStore()
 const { project_name, project_body } = storeToRefs(counter)
 
 const keys = useMagicKeys()
-const prevDoc = keys["ctrl+/"]
-const nextDoc = keys["ctrl+*"]
+const prevDoc = keys["ctrl+ArrowUp"]
+const nextDoc = keys["ctrl+ArrowDown"]
 
 // import { useShortcutsStore } from "@/stores/shortcuts"
 // const shortcuts = useShortcutsStore()

@@ -24,12 +24,12 @@ const { t } = useI18n()
 <template>
   <SelectRoot v-model="sortOption">
     <SelectTrigger
-      class="flex items-center justify-between w-full h-[2.125rem] px-1 text-xs border min-w-24 border-secondary shrink-0 bg-background text-secondary-foreground"
+      class="flex items-center justify-between w-full h-[1.5rem] px-1 text-xs border min-w-24 border-secondary shrink-0 bg-background text-secondary-foreground"
       :aria-label="t('sidebar.sort.sort') + ' documents list'"
     >
+      <span>{{ t("sidebar.sort.sort") }}&nbsp;</span>
       <SelectValue placeholder="Seleccionar" />
       <ChevronDown class="h-3.5 w-3.5" />
-      <span class="sr-only">{{ t("sidebar.sort.sort") }}</span>
     </SelectTrigger>
     <SelectPortal>
       <SelectContent

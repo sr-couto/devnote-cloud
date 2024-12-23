@@ -19,7 +19,7 @@
         : 'text-muted-foreground'
       "
     >
-      <Heading1 />
+      <Heading1 class="size-5" />
       <span class="sr-only">{{ t("settings.showHeadingDescription") }}</span>
     </button>
   </div>

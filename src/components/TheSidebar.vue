@@ -30,14 +30,15 @@ whenever(magicFocusTitle, (n) => {
   if (n) focus.SetFocusTitle()
 })
 
-const magicFocusEditor = keys["ctrl+shift+alt+ArrowDown"]
+const magicFocusEditor = keys["ctrl+shift+alt+e"]
 whenever(magicFocusEditor, (n) => {
   if (n) editor.value.commands.focus()
 })
 
-const magicEditorToolbar = keys["ctrl+shift+alt+ArrowUp"]
+const magicEditorToolbar = keys["ctrl+shift+alt+t"]
 whenever(magicEditorToolbar, (n) => {
-  if (n) useEditorStore.showEditorToolbar = !useEditorStore.showEditorToolbar
+  console.log(document.showEditorToolbar)
+  if (n) document.showEditorToolbar = !document.showEditorToolbar
 })
 
 watch(isOverDropZone, (v) => {
