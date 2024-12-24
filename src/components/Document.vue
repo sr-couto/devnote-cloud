@@ -1,9 +1,9 @@
 <script setup>
-import DocumentEditor from "./DocumentEditor.vue"
+import AlertLogout from "@/components/ui/AlertLogout.vue"
+import AlertUnsavedChanges from "@/components/ui/AlertUnsavedChanges.vue"
 import DeleteDocument from "@/components/ui/ButtonDeleteDocument.vue"
+import DocumentEditor from "@/components/DocumentEditor.vue"
 import SplitterGroup from "@/components/ui/SplitterGroup.vue"
-import AlertUnsavedChanges from "./ui/AlertUnsavedChanges.vue"
-import AlertLogout from "./ui/AlertLogout.vue"
 </script>
 
 <template>

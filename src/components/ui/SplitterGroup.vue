@@ -1,12 +1,10 @@
 <script setup>
-import Tooltip from "@/components/ui/Tooltip.vue"
-
-import { shallowRef } from "vue"
-import { useDocumentStore } from "@/stores/document"
-
-import { useKeyModifier, useMagicKeys, whenever } from "@vueuse/core"
-import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui"
 import { ArrowRightToLine } from "lucide-vue-next"
+import { shallowRef } from "vue"
+import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui"
+import { useDocumentStore } from "@/stores/document"
+import { useKeyModifier, useMagicKeys, whenever } from "@vueuse/core"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 const document = useDocumentStore()
 const panelRef = shallowRef()

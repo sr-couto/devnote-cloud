@@ -9,7 +9,7 @@ export const useModalStore = defineStore("modal", () => {
   const show_commandbar = ref(false)
   const show_delete_db_modal = ref(false)
   const show_delete_document_modal = ref(false)
-  
+
   return {
     show_info,
     show_alert_unsaved_changes,

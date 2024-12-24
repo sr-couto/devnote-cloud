@@ -6,14 +6,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
 } from "reka-ui"
-import Tooltip from "@/components/ui/Tooltip.vue"
-
 import { computed, onMounted } from "vue"
-import { useDocumentStore } from "@/stores/document"
-
-import { useColorMode, useStorage, useFavicon, useDark } from "@vueuse/core"
 import { SunMedium, Moon } from "lucide-vue-next"
+import { useColorMode, useStorage, useFavicon, useDark } from "@vueuse/core"
+import { useDocumentStore } from "@/stores/document"
 import { useI18n } from "vue-i18n"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 const document_store = useDocumentStore()
 const mode = useColorMode()

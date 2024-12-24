@@ -1,11 +1,11 @@
 <script setup>
-import { useI18n } from "vue-i18n"
-const { t } = useI18n()
-
-import Tooltip from "@/components/ui/Tooltip.vue"
-import { useDatabaseStore } from "@/stores/database"
-import { storeToRefs } from "pinia"
 import { CircleOff } from "lucide-vue-next"
+import { storeToRefs } from "pinia"
+import { useDatabaseStore } from "@/stores/database"
+import { useI18n } from "vue-i18n"
+import Tooltip from "@/components/ui/Tooltip.vue"
+
+const { t } = useI18n()
 const db_store = useDatabaseStore()
 const { loaded_id } = storeToRefs(db_store)
 

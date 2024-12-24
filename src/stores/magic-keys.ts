@@ -15,7 +15,7 @@ export const useMagicKeysStore = defineStore("magic-keys", () => {
   const db_store = useDatabaseStore()
   const editor_store = useEditorStore()
 
-  const { show_settings, show_delete_document_modal } = storeToRefs(modal)
+  const { show_settings, show_delete_document_modal, show_commandbar } = storeToRefs(modal)
   const { editor } = storeToRefs(editor_store)
 
   const magic_toggle_preview = keys["ctrl+alt+p"]
@@ -28,6 +28,7 @@ export const useMagicKeysStore = defineStore("magic-keys", () => {
   const magic_editor_toolbar = keys["ctrl+shift+alt+t"]
   const magic_delete_document = keys["shift+delete"]
   const magic_ctrl_m = keys["ctrl+m"]
+  const magic_command_menu = keys["ctrl+alt+o"]
 
   whenever(magic_focus_sidebar, (n) => {
     if (n) focus.setFocusSidebar()
@@ -72,6 +73,10 @@ export const useMagicKeysStore = defineStore("magic-keys", () => {
     db_store.navigate_document("next")
   })
 
+  whenever(magic_command_menu, (n) => {
+    if (n) modal.show_commandbar = true
+  })
+
   return {
     magic_show_settings,
     magic_ctrl_m,
@@ -83,5 +88,6 @@ export const useMagicKeysStore = defineStore("magic-keys", () => {
     magic_delete_document,
     magic_previous_document,
     magic_next_document,
+    magic_command_menu,
   }
 })

@@ -10,13 +10,12 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "reka-ui"
-import Tooltip from "./Tooltip.vue"
-import { useDatabaseStore } from "@/stores/database"
-
-import { useModalStore } from "@/stores/modal"
-import { Trash2, X } from "lucide-vue-next"
-import { useI18n } from "vue-i18n"
 import { storeToRefs } from "pinia"
+import { Trash2, X } from "lucide-vue-next"
+import { useDatabaseStore } from "@/stores/database"
+import { useI18n } from "vue-i18n"
+import { useModalStore } from "@/stores/modal"
+import Tooltip from "./Tooltip.vue"
 
 const db_store = useDatabaseStore()
 const modal = useModalStore()

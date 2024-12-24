@@ -5,11 +5,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "reka-ui"
-import Tooltip from "./Tooltip.vue"
-
-import { useStorage } from "@vueuse/core"
 import { Languages } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
+import { useStorage } from "@vueuse/core"
+import Tooltip from "./Tooltip.vue"
 
 const storedLocale = useStorage("locale", "es")
 const { t, locale } = useI18n()

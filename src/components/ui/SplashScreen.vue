@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Tooltip from "./Tooltip.vue"
 import { useDatabaseStore } from "@/stores/database"
 import { useDocumentStore } from "@/stores/document"
-import { useFocusStore } from "@/stores/focus"
 import { useEditorStore } from "@/stores/editor"
+import { useFocusStore } from "@/stores/focus"
+import Tooltip from "./Tooltip.vue"
 const db_store = useDatabaseStore()
 const document = useDocumentStore()
 const focus = useFocusStore()

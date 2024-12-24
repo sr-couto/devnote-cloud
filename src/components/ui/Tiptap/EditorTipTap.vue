@@ -249,10 +249,11 @@ onBeforeUnmount(() => {
 }
 
 .ScrollAreaEditor {
-  @apply w-full border-0 print:!h-full print:!max-h-none overflow-x-hidden print:!overflow-y-auto;
+  @apply w-full scrollbar-none border-0 print:!h-full print:!max-h-none overflow-x-hidden print:!overflow-y-auto;
+  
 
   &.is-editable {
-    @apply max-h-[calc(100dvh-2.5rem)] bg-secondary/30;
+    @apply max-h-[calc(100dvh-3rem)] bg-secondary/30 ;
 
     .tiptap td,
     .tiptap th {

@@ -1,16 +1,14 @@
 <script setup>
-import Editor from "@/components/ui/Tiptap/EditorTipTap.vue"
-import EditorToolbar from "@/components/ui/Tiptap/EditorToolbar.vue"
-import EditorTitle from "@/components/ui/Tiptap/EditorTitle.vue"
-import SplashScreen from "@/components/ui/SplashScreen.vue"
-
-import { useDatabaseStore } from "@/stores/database"
-import { useSettingsStore } from "@/stores/settings"
-import { useDocumentStore } from "@/stores/document"
-
-import { useI18n } from "vue-i18n"
 import { storeToRefs } from "pinia"
+import { useDatabaseStore } from "@/stores/database"
+import { useDocumentStore } from "@/stores/document"
+import { useI18n } from "vue-i18n"
 import { useIsMobile } from "@/composables/useIsMobile"
+import { useSettingsStore } from "@/stores/settings"
+import Editor from "@/components/ui/Tiptap/EditorTipTap.vue"
+import EditorTitle from "@/components/ui/Tiptap/EditorTitle.vue"
+import EditorToolbar from "@/components/ui/Tiptap/EditorToolbar.vue"
+import SplashScreen from "@/components/ui/SplashScreen.vue"
 
 const settings = useSettingsStore()
 const db_store = useDatabaseStore()
@@ -26,7 +24,6 @@ const { t } = useI18n()
       <div
         class="editor-top"
         v-if="content_editable"
-        :class="show_editor_toolbar && 'with-toolbar'"
       >
         <EditorTitle />
         <EditorToolbar v-if="show_editor_toolbar" />

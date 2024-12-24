@@ -1,8 +1,22 @@
 <script setup lang="ts">
-import Home from "@/views/Home.vue"
-import Toasts from "@/components/ui/Toasts.vue"
+import { storeToRefs } from "pinia"
+import { useDatabaseStore } from "@/stores/database"
+import { useMagicKeysStore } from "@/stores/magic-keys"
 import { useStorage } from "@vueuse/core"
+import { watchEffect } from "vue"
+import Document from "@/components/Document.vue"
+import PullToRefresh from "@/components/ui/PullToRefresh.vue"
+import Sidebar from "@/components/TheSidebar.vue"
+import Toasts from "@/components/ui/Toasts.vue"
+
+useMagicKeysStore()
+const db_store = useDatabaseStore()
 const cursor_pointer = useStorage("cursor", true)
+const { project_name, project_body } = storeToRefs(db_store)
+
+watchEffect(() => {
+  if (project_name.value || project_body.value) db_store.auto_save()
+})
 </script>
 
 <template>
@@ -10,7 +24,12 @@ const cursor_pointer = useStorage("cursor", true)
     class="w-full min-h-screen font-mono bg-background text-foreground"
     :class="cursor_pointer ? 'cursor_pointer' : 'cursor_initial'"
   >
-    <Home />
+    <PullToRefresh>
+      <div class="flex w-full print:!h-auto print:!overflow-y-auto h-svh overflow-y-hidden">
+        <Sidebar />
+        <Document />
+      </div>
+    </PullToRefresh>
   </main>
   <Toasts />
 </template>

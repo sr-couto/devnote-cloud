@@ -137,7 +137,7 @@
     "updateButton": "Update",
     "clickToUpdate": "Click to update",
     "unsavedChanges": "Has unsaved changes",
-    "unsavedChangesDescription": "Curent document has changes that are not saved in indexededDb. Do you wish to continue and descart changes?",
+    "unsavedChangesDescription": "Curent document has changes that are not saved in indexededDb",
     "discardChanges": "Discard changes",
     "continueEditing": "Continue editing",
     "logoutTitle": "Logout",

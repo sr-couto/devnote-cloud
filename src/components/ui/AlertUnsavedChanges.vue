@@ -9,16 +9,14 @@ import {
   AlertDialogContent,
   AlertDialogTitle,
   AlertDialogDescription,
-  AlertDialogCancel,
   AlertDialogAction,
 } from "reka-ui"
 
-import { useModalStore } from "@/stores/modal"
-import { useDatabaseStore } from "@/stores/database"
-import { useFocusStore } from "@/stores/focus"
-import { useDocumentStore } from "@/stores/document"
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
-import { X } from "lucide-vue-next"
+import { useDatabaseStore } from "@/stores/database"
+import { useDocumentStore } from "@/stores/document"
+import { useFocusStore } from "@/stores/focus"
+import { useModalStore } from "@/stores/modal"
 
 const focus = useFocusStore()
 const document = useDocumentStore()
@@ -28,24 +26,23 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater("lg")
 
 function set_document(id) {
-  if (largerThanLg.value === true) {
-    db_store.set_project(id)
-  } else {
-    db_store.set_project(id)
-    document.show_sidebar_documents = false
-  }
-}
-
-function focusOnTitle() {
-  document.content_editable = true
   if (largerThanLg.value === false) {
     document.show_sidebar_documents = false
   }
+  db_store.set_project(id)
+}
+
+function focusOnTitle() {
+  if (largerThanLg.value === false) {
+    document.show_sidebar_documents = false
+  }
+  db_store.select_id = ""
+  document.content_editable = true
   modal.show_commandbar = false
   modal.show_alert_unsaved_changes = false
   setTimeout(() => {
     focus.SetFocusTitle()
-  }, 100)
+  }, 1)
 }
 </script>
 
@@ -65,7 +62,7 @@ function focusOnTitle() {
         <div class="flex justify-between gap-x-2">
           <AlertDialogAction as-child>
             <button
-              @click="set_document(db_store.selectedId)"
+              @click="set_document(db_store.select_id)"
               class="bg-red-600 text-white hover:bg-red-800 outline-none inline-flex ring-0 hover:ring-2 ring-red-600 h-[35px] items-center justify-center rounded-[4px] px-3 text-xs font-semibold leading-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               {{ t("message.discardChanges") }}
@@ -78,11 +75,11 @@ function focusOnTitle() {
             {{ t("message.continueEditing") }}
           </button>
         </div>
-        <AlertDialogCancel
+        <!-- <AlertDialogCancel
           class="absolute top-0 size-6 flex justify-center items-center m-3 right-0 z-[999] text-foreground"
         >
           <X class="size-4" />
-        </AlertDialogCancel>
+        </AlertDialogCancel> -->
       </AlertDialogContent>
     </AlertDialogPortal>
   </AlertDialogRoot>

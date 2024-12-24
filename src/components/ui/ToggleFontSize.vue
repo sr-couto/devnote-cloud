@@ -6,14 +6,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
 } from "reka-ui"
-import Tooltip from "@/components/ui/Tooltip.vue"
-
+import { AArrowUp, AArrowDown } from "lucide-vue-next"
 import { onMounted } from "vue"
 import { useDocumentStore } from "@/stores/document"
-
-import { useStorage } from "@vueuse/core"
-import { AArrowUp, AArrowDown } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
+import { useStorage } from "@vueuse/core"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 const document_store = useDocumentStore()
 const appFontSize = useStorage("appFontSize", "app-font-size-md")

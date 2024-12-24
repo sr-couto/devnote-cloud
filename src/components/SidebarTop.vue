@@ -1,36 +1,23 @@
 <script setup lang="ts">
+import { ArrowRightToLine, ArrowLeftToLine } from "lucide-vue-next"
+import { storeToRefs } from "pinia"
+import { useDocumentStore } from "@/stores/document"
+import { useFocusStore } from "@/stores/focus"
+import { useI18n } from "vue-i18n"
 import ButtonCreateDocumentCollapse from "@/components/ui/ButtonCreateDocumentCollapse.vue"
 import DialogCommandMenu from "@/components/ui/DialogCommandMenu.vue"
 import DialogInfo from "@/components/ui/DialogInfo.vue"
 import DialogSettings from "@/components/ui/Settings/DialogSettings.vue"
-import Driver from "@/composables/driver.ts"
+import DropdownLogo from "@/components/ui/DropdownLogo.vue"
 import ToggleEditable from "@/components/ui/ToggleEditable.vue"
 import ToggleFontSize from "@/components/ui/ToggleFontSize.vue"
 import ToggleTheme from "@/components/ui/ToggleTheme.vue"
 import Tooltip from "@/components/ui/Tooltip.vue"
 
-import { onMounted } from "vue"
-import { useDocumentStore } from "@/stores/document"
-import { storeToRefs } from "pinia"
-import { useFocusStore } from "@/stores/focus"
-
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
-import { ArrowRightToLine, ArrowLeftToLine } from "lucide-vue-next"
-import { useI18n } from "vue-i18n"
-import DropdownLogo from "./ui/DropdownLogo.vue"
 const focus = useFocusStore()
 const document = useDocumentStore()
-
 const { focus_sidebar } = storeToRefs(focus)
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const largerThanLg = breakpoints.greater("lg")
 const { t } = useI18n()
-
-onMounted(() => {
-  if (largerThanLg.value) {
-    Driver()
-  }
-})
 </script>
 
 <template>

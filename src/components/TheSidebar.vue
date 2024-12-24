@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import SidebarTop from "@/components/SidebarTop.vue"
-import SidebarProjects from "@/components/SidebarProjects.vue"
-
 import { shallowRef } from "vue"
 import { storeToRefs } from "pinia"
 import { useDocumentStore } from "@/stores/document"
 import { useI18n } from "vue-i18n"
+import SidebarProjects from "@/components/SidebarProjects.vue"
+import SidebarTop from "@/components/SidebarTop.vue"
 
 const document = useDocumentStore()
 const dropZoneRef = shallowRef()
 const { show_sidebar_documents } = storeToRefs(document)
 const { t } = useI18n()
-
 </script>
 
 <template>

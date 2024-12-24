@@ -137,7 +137,7 @@
     "updateButton": "Actualizar",
     "clickToUpdate": "Click para actualizar",
     "unsavedChanges": "Cambios sin guardar",
-    "unsavedChangesDescription": " El documento actual tiene cambios sin guardar. ¿Quieres continuar y descartar los cambios?",
+    "unsavedChangesDescription": " El documento actual tiene cambios sin guardar.",
     "discardChanges": " Descartar cambios",
     "continueEditing": "Continuar editando",
     "logoutTitle": "Cerrar sesión",

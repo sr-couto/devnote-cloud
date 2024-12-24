@@ -5,17 +5,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "reka-ui"
-import Tooltip from "@/components/ui/Tooltip.vue"
-
 import { db } from "@/db"
-import { useFocusStore } from "@/stores/focus"
-import { useEditorStore } from "@/stores/editor"
-import { useDocumentStore } from "@/stores/document"
-import { useModalStore } from "@/stores/modal"
-
-import { useI18n } from "vue-i18n"
 import { nextTick, shallowRef } from "vue"
 import { storeToRefs } from "pinia"
+import { useDocumentStore } from "@/stores/document"
+import { useEditorStore } from "@/stores/editor"
+import { useFocusStore } from "@/stores/focus"
+import { useI18n } from "vue-i18n"
+import { useModalStore } from "@/stores/modal"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 const showNavigation = shallowRef(false)
 const document = useDocumentStore()

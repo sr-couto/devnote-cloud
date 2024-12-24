@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from "vue"
-import { usePullToRefresh } from "@/composables/usePullToRefresh"
 import { ArrowDownCircle } from "lucide-vue-next"
+import { ref } from "vue"
 import { useI18n } from "vue-i18n"
+import { usePullToRefresh } from "@/composables/usePullToRefresh"
 
 const containerRef = ref(null)
-const { distance, isRefreshing, isPulling } = usePullToRefresh(containerRef)
+const { distance, isRefreshing } = usePullToRefresh(containerRef)
 const { t } = useI18n()
 </script>
 

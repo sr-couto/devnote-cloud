@@ -52,7 +52,6 @@
   border-bottom-color: hsl(var(--secondary));
 }
 
-.driver-active .SidebarBottom *,
 .driver-active .ButtonDeleteDocument.driver-active-element {
   pointer-events: none !important;
 }

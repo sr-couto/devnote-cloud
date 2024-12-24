@@ -1,25 +1,21 @@
-<script setup>
-import Tooltip from "@/components/ui/Tooltip.vue"
-import { useUnsavedChanges } from "@/composables/useUnsavedChanges"
-import { useDatabaseStore } from "@/stores/database"
-
-import { storeToRefs } from "pinia"
+<script setup lang="ts">
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
-import { useEditorStore } from "@/stores/editor"
-import { useDocumentStore } from "@/stores/document"
-import { useModalStore } from "@/stores/modal"
-
 import { Circle } from "lucide-vue-next"
+import { storeToRefs } from "pinia"
+import { useDatabaseStore } from "@/stores/database"
+import { useDocumentStore } from "@/stores/document"
+import { useEditorStore } from "@/stores/editor"
 import { useI18n } from "vue-i18n"
+import { useModalStore } from "@/stores/modal"
+import { useUnsavedChanges } from "@/composables/useUnsavedChanges"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 const db_store = useDatabaseStore()
 const document = useDocumentStore()
 const editor_store = useEditorStore()
 const modal = useModalStore()
-
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater("lg")
-
 const { loaded_id } = storeToRefs(db_store)
 const { editor } = storeToRefs(editor_store)
 const { hasUnsavedChanges } = useUnsavedChanges()
@@ -32,23 +28,17 @@ const props = defineProps({
   },
 })
 
-function confirmSetDocument(id) {
-  if (hasUnsavedChanges()) {
-    db_store.selectedId = id
-    modal.show_alert_unsaved_changes = true
-  } else {
-    set_document(id)
-  }
-}
-
 function set_document(id) {
-  if (largerThanLg.value === true) {
-    db_store.set_project(id)
-  } else {
-    db_store.set_project(id)
+  db_store.select_id = id
+  console.log(!hasUnsavedChanges())
+  if (hasUnsavedChanges()) {
+    modal.show_alert_unsaved_changes = true
+    return
+  }
+  db_store.set_project(id)
+  if (!largerThanLg.value) {
     document.show_sidebar_documents = false
   }
-  modal.show_alert_unsaved_changes = false
   setTimeout(() => {
     editor.value.commands.focus()
   }, 100)
@@ -68,7 +58,7 @@ function toggleCheck(item, isChecked) {
           'text-primary underline underline-offset-4 decoration-primary/50'
         : ''
       "
-      @click="confirmSetDocument(props.data.id)"
+      @click="set_document(props.data.id)"
       @dblclick="document.toggle_editable()"
     >
       <span class="@sm:max-w-full max-w-80">

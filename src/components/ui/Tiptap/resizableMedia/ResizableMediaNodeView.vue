@@ -50,13 +50,11 @@ const setMediaActionActiveStates = () => {
   mediaActionActiveState.value = activeStates
 }
 
-
 watch(
   () => props.node.attrs,
   () => setMediaActionActiveStates(),
   { deep: true },
 )
-
 
 const mediaSetupOnLoad = () => {
   // ! TODO: move this to extension storage

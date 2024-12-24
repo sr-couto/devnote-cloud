@@ -1,9 +1,9 @@
 <script setup>
+import { Eye, PencilLine } from "lucide-vue-next"
+import { useDocumentStore } from "@/stores/document"
+import { useI18n } from "vue-i18n"
 import Tooltip from "@/components/ui/Tooltip.vue"
 
-import { useDocumentStore } from "@/stores/document"
-import { Eye, PencilLine } from "lucide-vue-next"
-import { useI18n } from "vue-i18n"
 const document = useDocumentStore()
 const { t } = useI18n()
 </script>

@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia"
-
-import { useDatabaseStore } from "@/stores/database"
-import { useFocusStore } from "@/stores/focus"
-import { useDocumentStore } from "@/stores/document"
-
-import { useMagicKeys, whenever, breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { Plus } from "lucide-vue-next"
+import { storeToRefs } from "pinia"
+import { useDatabaseStore } from "@/stores/database"
+import { useDocumentStore } from "@/stores/document"
+import { useFocusStore } from "@/stores/focus"
 import { useI18n } from "vue-i18n"
+import { useMagicKeys, whenever, breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 
-const document = useDocumentStore()
-const focus_store = useFocusStore()
-const db_store = useDatabaseStore()
-const { loaded_id } = storeToRefs(db_store)
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const largerThanLg = breakpoints.greater("lg")
 const keys = useMagicKeys()
+const focus_store = useFocusStore()
+const document = useDocumentStore()
+const db_store = useDatabaseStore()
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const { loaded_id } = storeToRefs(db_store)
 const magicNewDocument = keys["ctrl+alt+n"]
+const largerThanLg = breakpoints.greater("lg")
 const { t } = useI18n()
 
 whenever(magicNewDocument, () => {

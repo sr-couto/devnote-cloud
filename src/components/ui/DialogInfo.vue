@@ -7,7 +7,6 @@ import {
   DialogPortal,
   DialogRoot,
   DialogTitle,
-  DialogTrigger,
   ScrollAreaRoot,
   ScrollAreaScrollbar,
   ScrollAreaThumb,
@@ -15,11 +14,10 @@ import {
 } from "reka-ui"
 
 import { ref } from "vue"
-import { useModalStore } from "@/stores/modal"
-
-import { useMagicKeys, whenever } from "@vueuse/core"
-import { X } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
+import { useMagicKeys, whenever } from "@vueuse/core"
+import { useModalStore } from "@/stores/modal"
+import { X } from "lucide-vue-next"
 
 const modal = useModalStore()
 const open = ref(false)

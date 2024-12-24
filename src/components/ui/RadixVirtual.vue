@@ -12,17 +12,15 @@ import {
   ListboxRoot,
   ListboxVirtualizer,
 } from "reka-ui"
-import { useDocumentStore } from "@/stores/document"
-
-import { useStorage } from "@vueuse/core"
-const document = useDocumentStore()
-
-import { computed, shallowRef } from "vue"
 import { Check, ChevronDown, RotateCcw, X } from "lucide-vue-next"
+import { computed, shallowRef } from "vue"
+import { useDocumentStore } from "@/stores/document"
 import { useI18n } from "vue-i18n"
+import { useStorage } from "@vueuse/core"
 
-const appFontSize = useStorage("appFontSize")
 const emit = defineEmits(["update:modelValue"])
+const document = useDocumentStore()
+const appFontSize = useStorage("appFontSize")
 const { t } = useI18n()
 
 const props = defineProps({

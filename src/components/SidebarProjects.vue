@@ -1,21 +1,21 @@
 <script setup>
+import { allItemsTodo, allItemsChecked } from "@/composables/queries"
+import { ArrowDown, ArrowUp } from "lucide-vue-next"
+import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from "reka-ui"
+import { storeToRefs } from "pinia"
+import { useDatabaseStore } from "@/stores/database"
+import { useFocusStore } from "@/stores/focus"
+import { useI18n } from "vue-i18n"
+import { useIsMobile } from "@/composables/useIsMobile"
+import ButtonCreateDocument from "@/components/ui/ButtonCreateDocument.vue"
 import NumberFlow from "@number-flow/vue"
 import SearchItem from "./SearchItem.vue"
 import SearchItemChecked from "./SearchItemChecked.vue"
-import ButtonCreateDocument from "@/components/ui/ButtonCreateDocument.vue"
-import { useFocusStore } from "@/stores/focus"
-import { useDatabaseStore } from "@/stores/database"
-import { allItemsTodo, allItemsChecked } from "@/composables/queries"
-import { storeToRefs } from "pinia"
-import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from "reka-ui"
-import { ArrowDown, ArrowUp } from "lucide-vue-next"
-import { useI18n } from "vue-i18n"
-import { useIsMobile } from "@/composables/useIsMobile"
 const focus = useFocusStore()
-const { isMobile } = useIsMobile()
 const db_store = useDatabaseStore()
-const { focus_documents } = storeToRefs(focus)
 const { t } = useI18n()
+const { isMobile } = useIsMobile()
+const { focus_documents } = storeToRefs(focus)
 </script>
 
 <template>

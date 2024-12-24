@@ -2,7 +2,7 @@ import Dexie, { type EntityTable } from "dexie"
 import dexieCloud from "dexie-cloud-addon"
 
 interface Documents {
-  id?: number
+  id?: string
   date?: string
   project_data?: DocumentData
 }

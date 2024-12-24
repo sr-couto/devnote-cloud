@@ -10,15 +10,12 @@ import {
   DialogTrigger,
 } from "reka-ui"
 
-import { useDatabaseStore } from "@/stores/database"
-
-import { useSettingsStore } from "@/stores/settings"
 import { storeToRefs } from "pinia"
-
 import { toast } from "vue-sonner"
-import { X } from "lucide-vue-next"
+import { useDatabaseStore } from "@/stores/database"
 import { useI18n } from "vue-i18n"
 import { useModalStore } from "@/stores/modal"
+import { X } from "lucide-vue-next"
 
 const db_store = useDatabaseStore()
 const modal = useModalStore()

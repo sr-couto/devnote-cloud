@@ -1,24 +1,24 @@
-import { ref } from "vue"
-import { defineStore } from "pinia"
-import { db } from "@/db"
-import { toast } from "vue-sonner"
-import { useModalStore } from "@/stores/modal"
-import { useDocumentStore } from "@/stores/document"
 import { allItemsTodo } from "@/composables/queries"
-import { useUnsavedChanges } from "@/composables/useUnsavedChanges"
+import { db } from "@/db"
+import { defineStore } from "pinia"
+import { ref } from "vue"
+import { toast } from "vue-sonner"
+import { useDocumentStore } from "@/stores/document"
 import { useI18n } from "vue-i18n"
+import { useModalStore } from "@/stores/modal"
+import { useUnsavedChanges } from "@/composables/useUnsavedChanges"
 
 export const useDatabaseStore = defineStore("database", () => {
   const { t } = useI18n()
+  const document_store = useDocumentStore()
   const { hasUnsavedChanges } = useUnsavedChanges()
   const modal = useModalStore()
-  const document_store = useDocumentStore()
   const status = ref<"LOADING" | "READY" | "CREATING" | "CHANGING" | "ERROR">("LOADING")
-  const selectedId = ref(0)
-  const loaded_id = ref(0)
+  const select_id = ref("")
+  const loaded_id = ref("")
   const project_name = ref("")
   const project_body = ref("")
-  const project_checked = ref(null)
+  const project_checked = ref(false)
 
   async function create_project() {
     status.value = "CHANGING"
@@ -76,12 +76,12 @@ export const useDatabaseStore = defineStore("database", () => {
     }
   }
 
-  async function set_project(id) {
-    const selectedId = id ? id : null
-    if (selectedId === loaded_id.value) return
+  async function set_project(id: string) {
+    const future_id = id ? id : null
+    if (future_id === loaded_id.value) return
     status.value = "CHANGING"
     try {
-      const selectedState = await db.projects.get(selectedId)
+      const selectedState = await db.projects.get(future_id)
       if (selectedState) {
         project_body.value = selectedState.project_data.body
         project_name.value = selectedState.project_data.name
@@ -90,7 +90,7 @@ export const useDatabaseStore = defineStore("database", () => {
         document_store.clear_editor()
         console.error("Selected project not found")
       }
-      loaded_id.value = selectedId
+      loaded_id.value = future_id
     } catch (error) {
       handleError("Error al seleccionar el proyecto", error)
     }
@@ -138,7 +138,7 @@ export const useDatabaseStore = defineStore("database", () => {
     const nextDoc = allItemsTodo.value[nextIndex]
     if (nextDoc) {
       if (hasUnsavedChanges()) {
-        selectedId.value = nextDoc.id
+        select_id.value = nextDoc.id
         modal.show_alert_unsaved_changes = true
         return
       }
@@ -152,19 +152,19 @@ export const useDatabaseStore = defineStore("database", () => {
   }
 
   return {
-    loaded_id,
-    project_body,
-    project_name,
-    project_checked,
-    status,
-    navigate_document,
-    set_project,
-    create_project,
-    update_project,
-    delete_project,
     auto_save,
     change_project_checked,
     clear_database,
-    selectedId,
+    create_project,
+    delete_project,
+    loaded_id,
+    navigate_document,
+    project_body,
+    project_checked,
+    project_name,
+    select_id,
+    set_project,
+    status,
+    update_project,
   }
 })
