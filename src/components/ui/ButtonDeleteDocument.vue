@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   AlertDialogRoot,
   AlertDialogTrigger,
@@ -11,34 +11,26 @@ import {
   AlertDialogAction,
 } from "reka-ui"
 import Tooltip from "./Tooltip.vue"
+import { useDatabaseStore } from "@/stores/database"
 
-import { ref } from "vue"
-import { useCounterStore } from "@/stores/counter"
-
-import { useMagicKeys, whenever } from "@vueuse/core"
+import { useModalStore } from "@/stores/modal"
 import { Trash2, X } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
+import { storeToRefs } from "pinia"
 
-const counter = useCounterStore()
-const keys = useMagicKeys()
-const magicDeleteDocument = keys["shift+delete"]
-const showAlertUnsavedChanges = ref(false)
+const db_store = useDatabaseStore()
+const modal = useModalStore()
+const { show_delete_document_modal } = storeToRefs(modal)
+
 const { t } = useI18n()
-
-whenever(magicDeleteDocument, (n) => {
-  if (n)
-    if (counter.loaded_id) {
-      showAlertUnsavedChanges.value = true
-    }
-})
 </script>
 
 <template>
-  <AlertDialogRoot v-model:open="showAlertUnsavedChanges">
+  <AlertDialogRoot v-model:open="show_delete_document_modal">
     <Tooltip :name="t('editor.delete')" side="left" :align="'end'" shortcut="shift + delete">
       <AlertDialogTrigger
         class="fixed bottom-1 print:hidden md:bottom-0 right-1 md:right-0 flex items-center justify-center ml-auto text-xs ButtonDeleteDocument h-10 w-8 z-50 text-primary hover:bg-primary/20"
-        :class="counter.loaded_id ? '' : 'hidden'"
+        :class="db_store.loaded_id ? '' : 'hidden'"
       >
         <Trash2 class="size-4" />
         <span class="!select-none sr-only">{{ t("editor.delete") }}</span>
@@ -65,7 +57,7 @@ whenever(magicDeleteDocument, (n) => {
           </AlertDialogCancel>
           <AlertDialogAction as-child>
             <button
-              @click="counter.delete_project()"
+              @click="db_store.delete_project()"
               class="bg-red-600 text-white hover:bg-red-800 outline-none inline-flex ring-0 hover:ring-2 ring-red-600 h-[35px] items-center justify-center rounded-[4px] px-3 text-xs font-semibold leading-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               {{ t("verb.delete") }}

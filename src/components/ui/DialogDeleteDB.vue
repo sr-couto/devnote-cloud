@@ -10,43 +10,34 @@ import {
   DialogTrigger,
 } from "reka-ui"
 
-import { onMounted, shallowRef, watch } from "vue"
-import { useCounterStore } from "@/stores/counter"
+import { useDatabaseStore } from "@/stores/database"
+
 import { useSettingsStore } from "@/stores/settings"
 import { storeToRefs } from "pinia"
 
-import { refDebounced } from "@vueuse/core"
 import { toast } from "vue-sonner"
 import { X } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
+import { useModalStore } from "@/stores/modal"
 
-// TODO move showSettings to Settings Store
-const counter = useCounterStore()
-const settings = useSettingsStore()
-const { file_name, showSettings } = storeToRefs(counter)
+const db_store = useDatabaseStore()
+const modal = useModalStore()
+const { show_delete_db_modal, show_settings } = storeToRefs(modal)
 
-const input = shallowRef(file_name)
-const showDeleteModal = shallowRef(false)
-const debounced = refDebounced(input, 100)
 const { t } = useI18n()
 
 function clear() {
-  counter.clearDatabase()
+  db_store.clear_database()
   setTimeout(() => {
-    if (settings.init_db_with_example_doc) {
-      toast.success(t("message.databaseClearedWithExample"))
-    } else {
-      toast(t("message.databaseCleared"))
-    }
-    showDeleteModal.value = false
-    showSettings.value = false
-    counter.init_database()
+    toast(t("message.databaseCleared"))
+    show_delete_db_modal.value = false
+    show_settings.value = false
   }, 300)
 }
 </script>
 
 <template>
-  <DialogRoot v-model:open="showDeleteModal">
+  <DialogRoot v-model:open="show_delete_db_modal">
     <DialogTrigger
       class="bg-destructive text-white hover:bg-red-800 outline-none inline-flex ring-0 hover:ring-2 ring-destructive h-8 items-center justify-center rounded-[4px] px-3 text-xs font-semibold leading-none focus:outline-2 focus:outline-foreground focus:outline-dashed gap-3 focus:outline-offset-2"
       aria-label="Delete DB"
@@ -72,13 +63,6 @@ function clear() {
           {{ t("editor.deleteConfirm") }}
         </DialogDescription>
         <div class="flex items-center justify-end gap-3 mt-6">
-          <button
-            class="bg-primary border-secondary border text-primary-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:outline-2 focus:outline-foreground focus:outline-dashed gap-3 focus:outline-offset-2 mr-auto"
-            @click="counter.export_database(counter.file_name)"
-          >
-            {{ t("settings.export") }}
-          </button>
-
           <DialogClose as-child>
             <button
               class="bg-background border-secondary border text-foreground hover:bg-backgorund/80 text-xs inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:outline-2 focus:outline-foreground focus:outline-dashed gap-3 focus:outline-offset-2"

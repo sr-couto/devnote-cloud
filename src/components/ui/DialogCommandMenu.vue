@@ -20,7 +20,7 @@ import {
 import Tooltip from "./Tooltip.vue"
 import { useUnsavedChanges } from "@/composables/useUnsavedChanges"
 import { nextTick } from "vue"
-import { useCounterStore } from "@/stores/counter"
+import { useDatabaseStore } from "@/stores/database"
 import { storeToRefs } from "pinia"
 
 import { useMagicKeys, whenever, breakpointsTailwind, useBreakpoints } from "@vueuse/core"
@@ -29,12 +29,14 @@ import { Search, X } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
 import { useFocusStore } from "@/stores/focus"
 import { useEditorStore } from "@/stores/editor"
+import { useDocumentStore } from "@/stores/document"
 import { useModalStore } from "@/stores/modal"
 import { allItemsTodo } from "@/composables/queries"
 
 const focus = useFocusStore()
-const counter = useCounterStore()
+const db_store = useDatabaseStore()
 const editor_store = useEditorStore()
+const document = useDocumentStore()
 const modal = useModalStore()
 
 const { hasUnsavedChanges } = useUnsavedChanges()
@@ -42,63 +44,63 @@ const keys = useMagicKeys()
 const magicCommandMenu = keys["ctrl+alt+o"]
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater("lg")
-// const { allItemsTodo } = storeToRefs(counter);
-const { showCommandBar } = storeToRefs(modal)
+
+const { show_commandbar } = storeToRefs(modal)
 const { editor } = storeToRefs(editor_store)
 const { isMobile } = useIsMobile()
 const { t } = useI18n()
 
 whenever(magicCommandMenu, (n) => {
-  if (n) showCommandBar.value = true
+  if (n) show_commandbar.value = true
 })
 
 // function handleSelect(id) {
-//   showCommandBar.value = false
-//   counter.set_project(id);
+//   show_commandbar.value = false
+//   db_store.set_project(id);
 // }
 
 function handleSelect(id) {
   if (hasUnsavedChanges()) {
-    counter.selectedId = id
-    modal.showAlertUnsavedChanges = true
-    modal.showCommandBar = false
+    db_store.selectedId = id
+    modal.show_alert_unsaved_changes = true
+    modal.show_commandbar = false
     return
   }
-  counter.set_project(id)
-  showCommandBar.value = false
+  db_store.set_project(id)
+  show_commandbar.value = false
 }
 
 function close() {
-  showCommandBar.value = false
+  show_commandbar.value = false
 }
 
 function new_document() {
-  editor_store.clear_editor()
-  counter.content_editable = true
-  showCommandBar.value = false
+  document.clear_editor()
+  document.content_editable = true
+  show_commandbar.value = false
   focusOnTitle()
 }
 
 const focusEditor = () => {
-  counter.content_editable = true
+  document.content_editable = true
   close()
   if (largerThanLg.value === false) {
-    counter.showSidebarDocuments = false
+    document.show_sidebar_documents = false
   }
   nextTick(() => {
     editor.value.commands.focus()
   })
 }
 
-function showSettings() {
+function show_settings() {
   close()
   setTimeout(() => {
-    modal.showSettings = true
+    modal.show_settings = true
   }, 100)
 }
 
 function focusOnTitle() {
-  counter.content_editable = true
+  document.content_editable = true
   close()
   setTimeout(() => {
     focus.SetFocusTitle()
@@ -106,7 +108,7 @@ function focusOnTitle() {
 }
 
 function focusOnSidebar() {
-  if (!focus.focusSidebar) return
+  if (!focus.focus_sidebar) return
   close()
   setTimeout(() => {
     focus.setFocusSidebar()
@@ -115,12 +117,12 @@ function focusOnSidebar() {
 </script>
 
 <template>
-  <DialogRoot v-model:open="showCommandBar">
+  <DialogRoot v-model:open="show_commandbar">
     <Tooltip
       :name="t('commandBar.title')"
-      :side="counter.showSidebarDocuments ? 'bottom' : 'right'"
+      :side="document.show_sidebar_documents ? 'bottom' : 'right'"
       shortcut="ctrl + alt + o"
-      :align="counter.showSidebarDocuments ? 'end' : 'center'"
+      :align="document.show_sidebar_documents ? 'end' : 'center'"
     >
       <DialogTrigger
         class="flex items-center justify-center border interactive border-secondary hover:bg-secondary/80 bg-background size-8"
@@ -148,7 +150,7 @@ function focusOnSidebar() {
           />
           <ComboboxContent
             class="border-t border-muted-foreground/30 p-2 overflow-y-auto h-96"
-            @escape-key-down="showCommandBar = false"
+            @escape-key-down="show_commandbar = false"
           >
             <ComboboxEmpty class="text-center text-muted-foreground p-4">
               {{ t("sidebar.noResults") }}
@@ -180,7 +182,7 @@ function focusOnSidebar() {
               </ComboboxItem>
               <ComboboxItem
                 :value="`${t('verb.open')} ${t('settings.title')}`"
-                @select="showSettings()"
+                @select="show_settings()"
                 class="cursor-default font-mono text-xs px-4 py-2 rounded-md data-[highlighted]:bg-muted inline-flex w-full items-center gap-4"
               >
                 <span class="text-foreground"> {{ t("verb.open") }} {{ t("settings.title") }}</span>

@@ -1,4 +1,7 @@
-<script setup>
+<script setup lang="ts">
+import { useI18n } from "vue-i18n"
+const { t } = useI18n()
+
 import {
   AlertDialogRoot,
   AlertDialogPortal,
@@ -9,36 +12,37 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "reka-ui"
+
 import { useModalStore } from "@/stores/modal"
-import { useCounterStore } from "@/stores/counter"
+import { useDatabaseStore } from "@/stores/database"
 import { useFocusStore } from "@/stores/focus"
-const focus = useFocusStore()
+import { useDocumentStore } from "@/stores/document"
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { X } from "lucide-vue-next"
-import { useI18n } from "vue-i18n"
-const modal = useModalStore()
 
-const counter = useCounterStore()
+const focus = useFocusStore()
+const document = useDocumentStore()
+const modal = useModalStore()
+const db_store = useDatabaseStore()
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater("lg")
-const { t } = useI18n()
 
 function set_document(id) {
   if (largerThanLg.value === true) {
-    counter.set_project(id)
+    db_store.set_project(id)
   } else {
-    counter.set_project(id)
-    counter.showSidebarDocuments = false
+    db_store.set_project(id)
+    document.show_sidebar_documents = false
   }
 }
 
 function focusOnTitle() {
-  counter.content_editable = true
+  document.content_editable = true
   if (largerThanLg.value === false) {
-    counter.showSidebarDocuments = false
+    document.show_sidebar_documents = false
   }
-  modal.showCommandBar = false
-  modal.showAlertUnsavedChanges = false
+  modal.show_commandbar = false
+  modal.show_alert_unsaved_changes = false
   setTimeout(() => {
     focus.SetFocusTitle()
   }, 100)
@@ -46,7 +50,7 @@ function focusOnTitle() {
 </script>
 
 <template>
-  <AlertDialogRoot v-model:open="modal.showAlertUnsavedChanges">
+  <AlertDialogRoot v-model:open="modal.show_alert_unsaved_changes">
     <AlertDialogPortal>
       <AlertDialogOverlay class="fixed inset-0 z-[999] bg-black/80" />
       <AlertDialogContent
@@ -61,7 +65,7 @@ function focusOnTitle() {
         <div class="flex justify-between gap-x-2">
           <AlertDialogAction as-child>
             <button
-              @click="set_document(counter.selectedId)"
+              @click="set_document(db_store.selectedId)"
               class="bg-red-600 text-white hover:bg-red-800 outline-none inline-flex ring-0 hover:ring-2 ring-red-600 h-[35px] items-center justify-center rounded-[4px] px-3 text-xs font-semibold leading-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               {{ t("message.discardChanges") }}

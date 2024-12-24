@@ -1,20 +1,17 @@
 <script setup lang="ts">
-/*
-Disclaimer. All this folder is based upon work of sereneinserenade tiptap-media-resize
+/* Disclaimer. All this folder is based upon work of sereneinserenade tiptap-media-resize
 Tiptap Extension for having resizable, alignable, floatable, movable media.
 https://github.com/sereneinserenade/tiptap-media-resize
 
-** I have made some changes to the original code.
-*/
+** I have made some changes to the original code. */
+import { useDocumentStore } from "@/stores/document"
 
 import { Editor, Node, NodeViewWrapper } from "@tiptap/vue-3"
 import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from "reka-ui"
 import { Node as ProseMirrorNode } from "prosemirror-model"
 import { Decoration } from "prosemirror-view"
-import { resizableMediaActions, fullwidthMediaActions } from "./resizableMediaMenuUtil"
-
 import { ref, onMounted, computed, watch } from "vue"
-import { useCounterStore } from "@/stores/counter"
+import { resizableMediaActions, fullwidthMediaActions } from "./resizableMediaMenuUtil"
 
 import {
   AlignCenterVertical,
@@ -25,7 +22,7 @@ import {
 } from "lucide-vue-next"
 import { Trash } from "lucide-vue-next"
 
-const counter = useCounterStore()
+const document_store = useDocumentStore()
 
 interface Props {
   editor: Editor
@@ -46,20 +43,13 @@ const proseMirrorContainerWidth = ref(0)
 const mediaActionActiveState = ref<Record<string, boolean>>({})
 
 const setMediaActionActiveStates = () => {
-  if (!counter.content_editable) return
+  if (!document_store.content_editable) return
   const activeStates: Record<string, boolean> = {}
   for (const { tooltip, isActive } of resizableMediaActions)
     activeStates[tooltip] = !!isActive?.(props.node.attrs)
   mediaActionActiveState.value = activeStates
 }
 
-const setfullwidthMediaActionActiveStates = () => {
-  if (!counter.content_editable) return
-  const activeStates: Record<string, boolean> = {}
-  for (const { tooltip, isActive } of fullwidthMediaActions)
-    activeStates[tooltip] = !!isActive?.(props.node.attrs)
-  mediaActionActiveState.value = activeStates
-}
 
 watch(
   () => props.node.attrs,
@@ -67,11 +57,6 @@ watch(
   { deep: true },
 )
 
-watch(
-  () => props.node.attrs,
-  () => setfullwidthMediaActionActiveStates(),
-  { deep: true },
-)
 
 const mediaSetupOnLoad = () => {
   // ! TODO: move this to extension storage
@@ -101,7 +86,6 @@ const mediaSetupOnLoad = () => {
     }
   }
   setTimeout(() => setMediaActionActiveStates(), 200)
-  setTimeout(() => setfullwidthMediaActionActiveStates(), 200)
 }
 
 onMounted(() => mediaSetupOnLoad())
@@ -238,7 +222,7 @@ const isFullWidth = computed<boolean>(() => !!props.node.attrs.dataFullWidth)
     class="media-node-view flex relative not-prose my-0 group"
     :class="[`${(isAlign && `align-${props.node.attrs.dataAlign}`) || ''}`]"
   >
-    <PopoverRoot v-if="counter.content_editable">
+    <PopoverRoot v-if="document_store.content_editable">
       <PopoverTrigger
         aria-label="Update dimensions"
         class="z-50 absolute left-0 top-0 flex justify-center print:hidden items-center"
@@ -271,7 +255,7 @@ const isFullWidth = computed<boolean>(() => !!props.node.attrs.dataFullWidth)
     </PopoverRoot>
 
     <div
-      v-if="counter.content_editable"
+      v-if="document_store.content_editable"
       aria-label="Update dimensions"
       class="focus:!ring-primary z-50 focus:!ring-2 print:hidden absolute right-0 top-0 text-primary size-9 bg-secondary border border-primary flex justify-center items-center"
     >
@@ -281,7 +265,7 @@ const isFullWidth = computed<boolean>(() => !!props.node.attrs.dataFullWidth)
       </button>
     </div>
     <div class="flex relative">
-      <div v-show="counter.content_editable" class="w-fit flex relative">
+      <div v-show="document_store.content_editable" class="w-fit flex relative">
         <div v-if="mediaType === 'img'">
           <img
             v-bind="node.attrs"
@@ -330,7 +314,7 @@ const isFullWidth = computed<boolean>(() => !!props.node.attrs.dataFullWidth)
         />
       </div>
 
-      <div v-show="!counter.content_editable" class="w-fit flex relative">
+      <div v-show="!document_store.content_editable" class="w-fit flex relative">
         <img
           v-if="mediaType === 'img'"
           v-bind="node.attrs"

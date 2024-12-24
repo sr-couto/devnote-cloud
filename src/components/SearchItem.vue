@@ -1,24 +1,27 @@
 <script setup>
 import Tooltip from "@/components/ui/Tooltip.vue"
 import { useUnsavedChanges } from "@/composables/useUnsavedChanges"
-import { useCounterStore } from "@/stores/counter"
+import { useDatabaseStore } from "@/stores/database"
+
 import { storeToRefs } from "pinia"
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { useEditorStore } from "@/stores/editor"
+import { useDocumentStore } from "@/stores/document"
 import { useModalStore } from "@/stores/modal"
 
-import { Circle, Pin, X } from "lucide-vue-next"
+import { Circle } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
 
-const counter = useCounterStore()
-const document = useEditorStore()
+const db_store = useDatabaseStore()
+const document = useDocumentStore()
+const editor_store = useEditorStore()
 const modal = useModalStore()
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater("lg")
 
-const { loaded_id } = storeToRefs(counter)
-const { editor } = storeToRefs(document)
+const { loaded_id } = storeToRefs(db_store)
+const { editor } = storeToRefs(editor_store)
 const { hasUnsavedChanges } = useUnsavedChanges()
 const { t } = useI18n()
 
@@ -31,8 +34,8 @@ const props = defineProps({
 
 function confirmSetDocument(id) {
   if (hasUnsavedChanges()) {
-    counter.selectedId = id
-    modal.showAlertUnsavedChanges = true
+    db_store.selectedId = id
+    modal.show_alert_unsaved_changes = true
   } else {
     set_document(id)
   }
@@ -40,52 +43,33 @@ function confirmSetDocument(id) {
 
 function set_document(id) {
   if (largerThanLg.value === true) {
-    counter.set_project(id)
+    db_store.set_project(id)
   } else {
-    counter.set_project(id)
-    counter.showSidebarDocuments = false
+    db_store.set_project(id)
+    document.show_sidebar_documents = false
   }
-  modal.showAlertUnsavedChanges = false
+  modal.show_alert_unsaved_changes = false
   setTimeout(() => {
     editor.value.commands.focus()
   }, 100)
 }
 
 function toggleCheck(item, isChecked) {
-  counter.change_project_checked(item, isChecked)
-}
-
-function toggleFixed(item, isFixed) {
-  counter.change_project_fixed(item, isFixed)
+  db_store.change_project_checked(item, isChecked)
 }
 </script>
 
 <template>
-  <div class="relative flex items-center justify-between w-full pr-3 h-7 md:pr-2">
-    <!-- <Tooltip
-      side="top"
-      :name="`${props.data.project_data?.fixed ? t('verb.unfixed') : t('verb.fixed')}`"
-    >
-      <div class="flex items-center">
-        <button
-          @click="toggleFixed(props.data, props.data.project_data?.fixed)"
-          class="py-1 mx-0 outline-none md:py-0 w-6 h-6 ring-primary hover:text-primary focus-visible:ring-1 flex justify-center items-center"
-        >
-          <Pin
-            class="origin-center -rotate-45 size-4"
-            :class="props.data.project_data?.fixed ? 'fill-current text-primary' : ''"
-          />
-          <span class="sr-only">{{
-            props.data.project_data?.fixed ? t("verb.unfixed") : t("verb.fixed")
-          }}</span>
-        </button>
-      </div>
-    </Tooltip> -->
+  <div class="relative flex items-center justify-between w-full pr-3 min-h-8 md:pr-2">
     <button
       class="flex interactive hover:!text-primary px-0.5 h-6 w-full items-center outline-none justify-start text-sm text-left focus-within:ring-1 ring-primary"
-      :class="loaded_id === props.data.id ? 'text-primary underline underline-offset-4 decoration-primary/50' : ''"
+      :class="
+        loaded_id === props.data.id ?
+          'text-primary underline underline-offset-4 decoration-primary/50'
+        : ''
+      "
       @click="confirmSetDocument(props.data.id)"
-      @dblclick="counter.toggleEditable()"
+      @dblclick="document.toggle_editable()"
     >
       <span class="@sm:max-w-full max-w-80">
         <template v-if="props.data.project_data?.name">

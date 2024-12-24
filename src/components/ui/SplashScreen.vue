@@ -1,14 +1,16 @@
-<script setup>
-import { useCounterStore } from "@/stores/counter"
+<script setup lang="ts">
 import Tooltip from "./Tooltip.vue"
-const counter = useCounterStore()
-import { useEditorStore } from "@/stores/editor"
+import { useDatabaseStore } from "@/stores/database"
+import { useDocumentStore } from "@/stores/document"
 import { useFocusStore } from "@/stores/focus"
+import { useEditorStore } from "@/stores/editor"
+const db_store = useDatabaseStore()
+const document = useDocumentStore()
 const focus = useFocusStore()
-const document = useEditorStore()
+const editor_store = useEditorStore()
 
 function focusOnTitle() {
-  counter.toggleEditable()
+  document.toggle_editable()
   setTimeout(() => {
     focus.SetFocusTitle()
   }, 100)
@@ -21,7 +23,7 @@ function focusOnTitle() {
     class="absolute bg-background inset-0 overflow-hidden flex-col flex justify-start items-center z-20 w-full"
   >
     <Tooltip
-      v-if="counter.loaded_id === '' || useEditorStore.editor.isEmpty"
+      v-if="db_store.loaded_id === '' || editor_store.editor.isEmpty"
       name="click to edit"
       :side="'bottom'"
     >
@@ -30,7 +32,7 @@ function focusOnTitle() {
         class="p-2 h-8 relative z-10 text-xs text-primary-foreground bg-primary"
       >
         Current document not saved
-        <span v-show="counter.project_name === ''">: Also title is required. Click to edit</span>
+        <span v-show="db_store.project_name === ''">: Also title is required. Click to edit</span>
       </button>
     </Tooltip>
     <svg

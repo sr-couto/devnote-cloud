@@ -44,7 +44,7 @@
   </node-view-wrapper>
 </template>
 
-<script>
+<script lang="ts">
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from "@tiptap/vue-3"
 import { bundledLanguages } from "shiki/bundle/web"
 import RadixVirtual from "@/components/ui/RadixVirtual.vue"
@@ -101,10 +101,10 @@ export default {
     },
   },
   methods: {
-    copyToClipboard(uuid, successful = () => null, failure = () => null) {
+    copyToClipboard(successful = () => null, failure = () => null) {
       const clipboard = navigator.clipboard
       const value = this.node.content.content[0].text
-      if (clipboard !== undefined && clipboard !== "undefined") {
+      if (clipboard !== undefined && clipboard !== undefined) {
         navigator.clipboard.writeText(value).then(successful, failure)
         this.copyText = "Copied"
       } else {

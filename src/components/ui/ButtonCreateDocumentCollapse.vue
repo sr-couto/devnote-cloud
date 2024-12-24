@@ -1,33 +1,35 @@
 <script setup lang="ts">
-import { useCounterStore } from "@/stores/counter"
-import { useEditorStore } from "@/stores/editor"
+import { useDatabaseStore } from "@/stores/database"
+import { useFocusStore } from "@/stores/focus"
+import { useDocumentStore } from "@/stores/document"
 import { storeToRefs } from "pinia"
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { Plus } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
 
-const counter = useCounterStore()
-const editor_store = useEditorStore()
+const focus = useFocusStore()
+const db_store = useDatabaseStore()
+const document = useDocumentStore()
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater("lg")
-const { loaded_id } = storeToRefs(counter)
+const { loaded_id } = storeToRefs(db_store)
 const { t } = useI18n()
 
 function new_document() {
   if (largerThanLg.value === true) {
-    editor_store.clear_editor()
-    counter.content_editable = true
+    document.clear_editor()
+    document.content_editable = true
   } else {
-    editor_store.clear_editor()
-    counter.showSidebarDocuments = false
-    counter.content_editable = true
+    document.clear_editor()
+    document.show_sidebar_documents = false
+    document.content_editable = true
   }
   focusOnTitle()
 }
 
 function focusOnTitle() {
   setTimeout(() => {
-    counter.SetFocusTitle()
+    focus.SetFocusTitle()
   }, 100)
 }
 </script>

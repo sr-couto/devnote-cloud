@@ -28,7 +28,7 @@ function DriverJsInit() {
         },
       },
       {
-        element: ".create_project",
+        element: ".TextareaProjectName",
         popover: {
           title: "Document Title",
           description:
@@ -83,15 +83,6 @@ function DriverJsInit() {
           description:
             "Toggle between edit and preview mode for the document. Images can be enlarged in preview mode. Videos from URLs can only be played in this mode (for now).",
           side: "bottom",
-          align: "center",
-        },
-      },
-      {
-        element: ".SidebarBottom",
-        popover: {
-          title: "Import and Export",
-          description: "Save the database in JSON format to import it in another browser.",
-          side: "top",
           align: "center",
         },
       },

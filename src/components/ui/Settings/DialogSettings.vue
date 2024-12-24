@@ -1,4 +1,7 @@
-<script setup>
+<script setup lang="ts">
+import { useI18n } from "vue-i18n"
+const { t } = useI18n()
+
 import SettingCursor from "./SettingCursor.vue"
 import SettingTour from "./SettingTour.vue"
 import SettingTheme from "./SettingTheme.vue"
@@ -24,31 +27,23 @@ import {
 
 import Tooltip from "@/components/ui/Tooltip.vue"
 import { useModalStore } from "@/stores/modal"
-
-import { useCounterStore } from "@/stores/counter"
+import { useDocumentStore } from "@/stores/document"
 import { storeToRefs } from "pinia"
-
-import { useMagicKeys, whenever } from "@vueuse/core"
 import { X, Settings2 } from "lucide-vue-next"
 import { useIsMobile } from "@/composables/useIsMobile"
-import { useI18n } from "vue-i18n"
 
 const modal = useModalStore()
-const counter = useCounterStore()
+const document = useDocumentStore()
 const { isMobile } = useIsMobile()
-const keys = useMagicKeys()
-const magicSettings = keys["ctrl+alt+w"]
-const { showSettings } = storeToRefs(modal)
-const { t } = useI18n()
-
-whenever(magicSettings, (n) => {
-  if (n) showSettings.value = true
-})
+const { show_settings } = storeToRefs(modal)
 </script>
 
 <template>
-  <DialogRoot v-model:open="showSettings">
-    <Tooltip :name="t('settings.title')" :side="counter.showSidebarDocuments ? 'bottom' : 'right'">
+  <DialogRoot v-model:open="show_settings">
+    <Tooltip
+      :name="t('settings.title')"
+      :side="document.show_sidebar_documents ? 'bottom' : 'right'"
+    >
       <DialogTrigger
         class="flex items-center justify-center border interactive border-secondary hover:bg-secondary/80 bg-background size-8"
       >
@@ -86,15 +81,9 @@ whenever(magicSettings, (n) => {
                 <SettingTheme />
                 <SettingAppSize />
                 <SettingMainTitle />
-                <!-- <SettingShortcuts /> -->
                 <h4 class="mt-2 mb-0 text-xs text-primary">
                   {{ t("settings.database") }}
                 </h4>
-                <!-- <SettingExportDB /> -->
-                <!--
-                <SettingBase64 />
-                <SettingExportOnLoad />
-                <SettingInitWithData /> -->
                 <h4 class="mt-2 mb-0 text-xs text-red-600">
                   {{ t("settings.attention") }}
                 </h4>

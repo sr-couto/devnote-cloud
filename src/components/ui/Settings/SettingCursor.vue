@@ -3,11 +3,11 @@ import { MousePointer, Pointer } from "lucide-vue-next"
 import { useStorage } from "@vueuse/core"
 import { useI18n } from "vue-i18n"
 
-const cursorPointer = useStorage("cursor", true)
+const cursor_pointer = useStorage("cursor", true)
 const { t } = useI18n()
 
 const toggleCursor = () => {
-  cursorPointer.value = !cursorPointer.value
+  cursor_pointer.value = !cursor_pointer.value
 }
 </script>
 
@@ -25,7 +25,7 @@ const toggleCursor = () => {
       @click="toggleCursor()"
       class="flex focus:border-primary ring-foreground items-center justify-center border border-secondary bg-background shrink-0 hover:bg-secondary/80 size-8 focus:outline-2 focus:outline-foreground focus:outline-dashed focus:outline-offset-2"
     >
-      <Pointer v-if="cursorPointer" class="size-4" />
+      <Pointer v-if="cursor_pointer" class="size-4" />
       <MousePointer v-else class="size-4" />
       <span class="sr-only">{{ t("settings.cursorDescription") }}</span>
     </button>

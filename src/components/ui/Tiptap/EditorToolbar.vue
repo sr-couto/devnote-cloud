@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { ToolbarRoot } from "reka-ui"
 import { storeToRefs } from "pinia"
 import { useEditorStore } from "@/stores/editor"
-const document = useEditorStore()
-const { editor } = storeToRefs(document)
+const editor_store = useEditorStore()
+const { editor } = storeToRefs(editor_store)
 
 import ToolbarHeadingSelector from "./toolbar/ToolbarHeadingSelector.vue"
 import ToolbarTable from "./toolbar/ToolbarTable.vue"
@@ -67,7 +67,7 @@ import ToolbarClear from "./toolbar/ToolbarClear.vue"
   @apply size-3.5;
 }
 
-body:has(.cursorPointer) label {
+body:has(.cursor_pointer) label {
   cursor: pointer;
 }
 </style>

@@ -1,15 +1,13 @@
 <script setup>
-import Tooltip from "@/components/ui/Tooltip.vue"
-
-import { useCounterStore } from "@/stores/counter"
-import { storeToRefs } from "pinia"
-
-import { CircleOff } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
-
-const counter = useCounterStore()
-const { loaded_id } = storeToRefs(counter)
 const { t } = useI18n()
+
+import Tooltip from "@/components/ui/Tooltip.vue"
+import { useDatabaseStore } from "@/stores/database"
+import { storeToRefs } from "pinia"
+import { CircleOff } from "lucide-vue-next"
+const db_store = useDatabaseStore()
+const { loaded_id } = storeToRefs(db_store)
 
 const props = defineProps({
   data: {
@@ -19,13 +17,13 @@ const props = defineProps({
 })
 
 function toggleCheck(item, isChecked) {
-  counter.change_project_checked(item, isChecked)
+  db_store.change_project_checked(item, isChecked)
 }
 </script>
 
 <template>
   <div
-    class="z-20 flex items-center animate__animated animate__fadeIn justify-between w-full pr-3 duration-300 h-7 md:pr-2 opacity-70"
+    class="z-20 flex items-center justify-between w-full pr-3 duration-300 min-h-8 md:pr-2 opacity-70"
   >
     <span
       class="flex py-0.5 ml-1 rounded-full w-full items-center outline-none justify-start gap-2 text-sm text-left focus-within:ring-1 ring-primary"
@@ -43,12 +41,12 @@ function toggleCheck(item, isChecked) {
         <label :for="'itemcompleted-' + props.data?.id" class="">
           <input
             type="checkbox"
+            required
+            class="sr-only peer"
+            @change="toggleCheck(props.data, $event.target.checked)"
             :id="'itemcompleted-' + props.data?.id"
             :checked="props.data?.project_data.checked"
-            class="sr-only peer"
-            required
             :aria-label="t('sidebar.markAsUndone')"
-            @change="toggleCheck(props.data, $event.target.checked)"
           />
           <div
             class="peer-focus:outline-none items-center size-7 md:size-6 flex justify-center rounded-full relative z-[50] mr-0.5 peer-focus:ring-1 peer-focus:ring-blue-300 dark:peer-focus:ring-primary"

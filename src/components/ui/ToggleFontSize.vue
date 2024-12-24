@@ -9,13 +9,13 @@ import {
 import Tooltip from "@/components/ui/Tooltip.vue"
 
 import { onMounted } from "vue"
-import { useCounterStore } from "@/stores/counter"
+import { useDocumentStore } from "@/stores/document"
 
 import { useStorage } from "@vueuse/core"
 import { AArrowUp, AArrowDown } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
 
-const counter = useCounterStore()
+const document_store = useDocumentStore()
 const appFontSize = useStorage("appFontSize", "app-font-size-md")
 const { t } = useI18n()
 
@@ -35,7 +35,7 @@ onMounted(() => {
     <DropdownMenuTrigger class="interactive">
       <Tooltip
         :name="t('settings.fontsize')"
-        :side="counter.showSidebarDocuments ? 'bottom' : 'right'"
+        :side="document_store.show_sidebar_documents ? 'bottom' : 'right'"
         :align="'end'"
       >
         <span
@@ -48,8 +48,8 @@ onMounted(() => {
       </Tooltip>
     </DropdownMenuTrigger>
     <DropdownMenuContent
-      :side="counter.showSidebarDocuments ? 'bottom' : 'right'"
-      :align="counter.showSidebarDocuments ? 'end' : 'start'"
+      :side="document_store.show_sidebar_documents ? 'bottom' : 'right'"
+      :align="document_store.show_sidebar_documents ? 'end' : 'start'"
       class="z-10 grid w-44 text-xs bg-secondary"
     >
       <DropdownMenuGroup>

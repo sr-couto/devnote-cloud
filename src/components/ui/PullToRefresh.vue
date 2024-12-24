@@ -11,7 +11,6 @@ const { t } = useI18n()
 
 <template>
   <div ref="containerRef" class="relative">
-    <!-- Pull to refresh indicator -->
     <div
       v-show="distance > 0 || isRefreshing"
       class="absolute top-0 left-0 right-0 flex bg-gradient-to-b from-background to-transparent items-center justify-center transition-transform py-2 px-5 duration-200 z-[70]"
@@ -37,7 +36,7 @@ const { t } = useI18n()
             'animate-pulse': distance > 150 && !isRefreshing,
           }"
         />
-        <!-- <span v-if="isRefreshing">{{ t('message.refreshing') }}</span> -->
+        s
         <span class="font-bold" v-if="!isRefreshing">
           {{ t("verb.open") }} {{ t("commandBar.title") }}
         </span>

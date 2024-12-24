@@ -12,10 +12,10 @@ import {
   ListboxRoot,
   ListboxVirtualizer,
 } from "reka-ui"
-import { useCounterStore } from "@/stores/counter"
+import { useDocumentStore } from "@/stores/document"
 
 import { useStorage } from "@vueuse/core"
-const counter = useCounterStore()
+const document = useDocumentStore()
 
 import { computed, shallowRef } from "vue"
 import { Check, ChevronDown, RotateCcw, X } from "lucide-vue-next"
@@ -85,7 +85,7 @@ const filteredOptions = computed(() =>
       <div class="btn">
         <PopoverTrigger
           class="relative flex items-center justify-start w-full gap-2 !outline-none"
-          :class="counter.content_editable ? '' : '!pointer-events-none'"
+          :class="document.content_editable ? '' : '!pointer-events-none'"
           aria-label="Update dimensions"
         >
           <div
@@ -93,14 +93,14 @@ const filteredOptions = computed(() =>
             class="flex items-center opacity-70 print:scale-75 print:translate-x-1 print:-translate-y-1 justify-between w-full gap-2 text-xs"
           >
             <span class="shrink-0 text-foreground">{{ selected }}</span>
-            <ChevronDown v-if="counter.content_editable" class="print:hidden size-4 shrink-0" />
+            <ChevronDown v-if="document.content_editable" class="print:hidden size-4 shrink-0" />
           </div>
           <div
             v-else
             class="flex items-center opacity-70 print:scale-75 print:translate-x-1 print:-translate-y-1 justify-between w-full gap-2 text-xs"
           >
             <span>Auto</span>
-            <ChevronDown v-if="counter.content_editable" class="print:hidden size-4 shrink-0" />
+            <ChevronDown v-if="document.content_editable" class="print:hidden size-4 shrink-0" />
           </div>
         </PopoverTrigger>
       </div>

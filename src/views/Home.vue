@@ -1,51 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import Sidebar from "@/components/TheSidebar.vue"
 import Document from "@/components/Document.vue"
-import { onMounted, watch } from "vue"
+import { onMounted, watch, watchEffect } from "vue"
 import { storeToRefs } from "pinia"
-import { useCounterStore } from "@/stores/counter"
+import { useDatabaseStore } from "@/stores/database"
 import { useSettingsStore } from "@/stores/settings"
 import { useModalStore } from "@/stores/modal"
-import { useMagicKeys, whenever } from "@vueuse/core"
+
 import PullToRefresh from "@/components/ui/PullToRefresh.vue"
+import { useMagicKeysStore } from "@/stores/magic-keys"
+
+useMagicKeysStore()
 
 const settings = useSettingsStore()
 const modal = useModalStore()
-
-const counter = useCounterStore()
-const { project_name, project_body } = storeToRefs(counter)
-
-const keys = useMagicKeys()
-const prevDoc = keys["ctrl+ArrowUp"]
-const nextDoc = keys["ctrl+ArrowDown"]
-
-// import { useShortcutsStore } from "@/stores/shortcuts"
-// const shortcuts = useShortcutsStore()
-// const prevDoc = computed(() => keys[shortcuts.shortcuts.prevDocument])
-// const nextDoc = computed(() => keys[shortcuts.shortcuts.nextDocument])
-
-whenever(prevDoc, () => {
-  counter.navigateDocument("prev")
-})
-
-whenever(nextDoc, () => {
-  counter.navigateDocument("next")
-})
+const db_store = useDatabaseStore()
+const { project_name, project_body } = storeToRefs(db_store)
 
 onMounted(() => {
-  counter.init_database()
-  counter.auto_save()
-  if (settings.save_on_load) {
-    modal.showShareModal = true
-  }
+  db_store.status = "READY"
 })
 
-watch(project_name, (v) => {
-  if (v) counter.auto_save()
-})
-
-watch(project_body, (v) => {
-  if (v) counter.auto_save()
+watchEffect(() => {
+  if (project_name.value || project_body.value) db_store.auto_save()
 })
 </script>
 

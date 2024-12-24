@@ -1,7 +1,6 @@
 import { mergeAttributes, Node, nodeInputRule } from "@tiptap/core"
 import { VueNodeViewRenderer } from "@tiptap/vue-3"
-
-import ResizableMediaNodeView from "./ResizableMediaNodeViewTypescript.vue"
+import ResizableMediaNodeView from "./ResizableMediaNodeView.vue"
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {

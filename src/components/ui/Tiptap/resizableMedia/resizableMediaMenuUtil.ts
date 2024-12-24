@@ -41,19 +41,6 @@ export const resizableMediaActions: ResizableMediaAction[] = [
     icon: AlignEndVertical,
     isActive: (attrs) => attrs.dataAlign === "right",
   },
-  // {
-  //   tooltip: 'fullwidth',
-  //   action: (updateAttributes) => updateAttributes({
-  //     dataAlign: 'left',
-  //     dataFullWidth: true,
-  //   }),
-  //   icon: Maximize2,
-  // },
-  // {
-  //   tooltip: 'Delete',
-  //   icon: Trash,
-  //   delete: (deleteNode) => deleteNode()
-  // }
 ]
 
 export const fullwidthMediaActions: ResizableMediaAction[] = [

@@ -1,11 +1,24 @@
-import Dexie from "dexie"
+import Dexie, { type EntityTable } from "dexie"
 import dexieCloud from "dexie-cloud-addon"
 
-export const db = new Dexie("DB", { addons: [dexieCloud] })
+interface Documents {
+  id?: number
+  date?: string
+  project_data?: DocumentData
+}
+
+interface DocumentData {
+  name: string
+  body?: string
+  checked?: boolean
+}
+
+const db = new Dexie("DB", { addons: [dexieCloud] }) as Dexie & {
+  projects: EntityTable<Documents, "id">
+}
 
 db.version(1).stores({
-  file: "@id, date, name",
-  projects: "@id, date",
+  projects: "@id, date, project_data",
 })
 
 // Connect your dexie-cloud database:
@@ -14,3 +27,6 @@ db.cloud.configure({
   requireAuth: true, // optional
   // customLoginGui: true
 })
+
+export type { Documents, DocumentData }
+export { db }

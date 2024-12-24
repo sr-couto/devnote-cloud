@@ -25,7 +25,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useSettingsStore } from "@/stores/settings"
 import { Heading1 } from "lucide-vue-next"
 const settings = useSettingsStore()

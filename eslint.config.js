@@ -5,8 +5,11 @@ export default [
   ...pluginVue.configs["flat/strongly-recommended"],
   {
     languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: globals.browser,
       parserOptions: {
-        ecmaVersion: "latest",
+        parser: typescriptEslint.parser,
       },
     },
   },

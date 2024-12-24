@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   DialogClose,
   DialogContent,
@@ -33,17 +33,7 @@ whenever(magicAbout, (n) => {
 </script>
 
 <template>
-  <DialogRoot v-model:open="modal.showInfoModal">
-    <!-- <Tooltip
-      :name="t('sidebar.about')"
-    >
-      <DialogTrigger
-        class="flex items-center justify-center border interactive border-secondary hover:bg-secondary/80 bg-background size-8"
-      >
-        <CircleHelp class="size-4" />
-        <span class="sr-only">{{ t('sidebar.about') }}</span>
-      </DialogTrigger>
-    </Tooltip> -->
+  <DialogRoot v-model:open="modal.show_info">
     <DialogPortal>
       <DialogOverlay class="bg-background/95 fixed inset-0 z-[60]" />
       <DialogContent
@@ -183,10 +173,6 @@ whenever(magicAbout, (n) => {
           </ScrollAreaScrollbar>
         </ScrollAreaRoot>
         <div class="flex justify-end mt-2 md:mt-3">
-          <!-- <div class="flex items-center justify-start gap-2 font-mono text-xs font-semibold text-foreground">
-            <TentTree class="size-5 text-primary" />
-            <DialogChangelog />
-          </div> -->
           <DialogClose as-child>
             <button
               class="bg-secondary text-foreground hover:bg-background hover:ring-2 hover:ring-foreground text-sm focus:shadow-green7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-semibold leading-none focus:outline-2 focus:outline-foreground focus:outline-dashed focus:outline-offset-4"

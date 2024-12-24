@@ -4,7 +4,7 @@ import SearchItem from "./SearchItem.vue"
 import SearchItemChecked from "./SearchItemChecked.vue"
 import ButtonCreateDocument from "@/components/ui/ButtonCreateDocument.vue"
 import { useFocusStore } from "@/stores/focus"
-import { useCounterStore } from "@/stores/counter"
+import { useDatabaseStore } from "@/stores/database"
 import { allItemsTodo, allItemsChecked } from "@/composables/queries"
 import { storeToRefs } from "pinia"
 import { ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from "reka-ui"
@@ -13,8 +13,8 @@ import { useI18n } from "vue-i18n"
 import { useIsMobile } from "@/composables/useIsMobile"
 const focus = useFocusStore()
 const { isMobile } = useIsMobile()
-const counter = useCounterStore()
-const { focusDocuments } = storeToRefs(focus)
+const db_store = useDatabaseStore()
+const { focus_documents } = storeToRefs(focus)
 const { t } = useI18n()
 </script>
 
@@ -22,11 +22,11 @@ const { t } = useI18n()
   <div class="h-full @container">
     <ButtonCreateDocument />
     <div
-      class="flex pl-2 pr-1.5 py-1.5 mt-2 focus-within:border-primary bg-primary/10 border-t border-b border-secondary justify-between items-center"
+      class="flex pl-2 pr-2 py-1.5 mt-2 focus-within:border-primary bg-primary/10 border-t border-b border-secondary justify-between items-center"
     >
       <h2
         class="text-xs outline-none text-primary flex justify-start items-center gap-1"
-        ref="focusDocuments"
+        ref="focus_documents"
         tabindex="-1"
       >
         {{ t("commandBar.documents") }}
@@ -41,59 +41,22 @@ const { t } = useI18n()
       >
         <kbd class="scale-90">ctrl</kbd>
         <button
-          @click="counter.navigateDocument('prev')"
-          class="flex justify-center  items-center bg-background"
+          @click="db_store.navigate_document('prev')"
+          class="flex justify-center items-center bg-background"
         >
           <ArrowUp class="size-4 opacity-80" />
           <span class="sr-only">Navigate prev</span>
         </button>
         <button
-          @click="counter.navigateDocument('next')"
-          class="flex justify-center  items-center bg-background"
+          @click="db_store.navigate_document('next')"
+          class="flex justify-center items-center bg-background"
         >
           <ArrowDown class="size-4 opacity-80" />
           <span class="sr-only">Navigate next</span>
         </button>
       </div>
     </div>
-    <!-- <div class="relative grid w-full gap-1 pl-1.5 pr-1 p-0.5 text-xs">
-      <div
-        class="relative flex items-center justify-between w-full col-span-2 border border-secondary"
-        v-auto-animate="{ duration: 300 }"
-      >
-        <label
-          class="w-full overflow-hidden relative ring-1 ring-secondary hover:ring-primary focus-within:ring-primary"
-        >
-          <input
-            ref="focusSearch"
-            v-model="searchTerm"
-            :placeholder="`${t('sidebar.search')}`"
-            class="text-xs outline-none pl-1 pr-12 h-8 bg-transparent placeholder:text-xs placeholder:text-foreground/40"
-          />
-        </label>
-        <span
-          v-if="!searchTerm"
-          class="top-0 right-[0.015rem] flex items-center bg-primary/10 text-foreground justify-center h-8 text-xs min-w-12"
-        >
-          <NumberFlow :value="`${allItemsTodo ? allItemsTodo?.length : 0}`" />
-        </span>
-        <button
-          v-else
-          class="absolute top-0 right-[0.015rem] flex items-center justify-center gap-1 px-1 text-xs min-w-12 h-8 bg-primary/10 hover:outline-none hover:bg-primary/20 text-foreground focus-visible:ring-2 focus:outline focus:ring-primary/50 border-primary focus-visible:bg-primary/5 hover:text-foreground"
-          @click="clearTerm()"
-        >
-          <span class="min-w-3">{{ results.length }}</span>
-          <span class="sr-only">Results. Click to clear filter</span>
-          <CircleX class="size-3" />
-        </button>
-        <div v-if="searchTerm" class="sr-only" role="alert">
-          <span class="min-w-3">{{ results.length }}</span>
-          <span class="sr-only">Results</span>
-        </div>
-      </div>
-    </div> -->
-
-    <div class="overflow-y-auto pl-1 SidebarProjects overflow-x-hidden h-[calc(100dvh-13rem)]">
+    <div class="overflow-y-auto pl-1 SidebarProjects overflow-x-hidden h-[calc(100dvh-7rem)]">
       <ScrollAreaRoot class="w-full h-full rounded overflow-hidden" style="--scrollbar-size: 10px">
         <ScrollAreaViewport class="w-full h-full rounded">
           <div

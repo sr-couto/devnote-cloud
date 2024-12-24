@@ -505,11 +505,11 @@ button.interactive {
   @apply active:opacity-70 hover:outline-offset-0 hover:!border-secondary hover:outline-primary;
 }
 
-body:has(.cursorInitial) button {
+body:has(.cursor_initial) button {
   cursor: default !important;
 }
 
-body:has(.cursorPointer) [role="menuitem"] {
+body:has(.cursor_pointer) [role="menuitem"] {
   cursor: pointer;
 }
 

@@ -61,7 +61,7 @@ export function usePullToRefresh(elementRef) {
 
       // Perform refresh action
       try {
-        modal.showCommandBar = true
+        modal.show_commandbar = true
       } catch (error) {
         toast.error("Can't open command bar", error)
       }

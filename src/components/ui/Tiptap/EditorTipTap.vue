@@ -35,21 +35,22 @@ import { ResizableMedia } from "./resizableMedia"
 import mediumZoom from "medium-zoom/dist/pure"
 import "medium-zoom/dist/style.css"
 import History from "@tiptap/extension-history"
-import { onMounted, onBeforeUnmount, watch, computed } from "vue"
-import { useCounterStore } from "@/stores/counter"
+import { onMounted, onBeforeUnmount } from "vue"
+import { useDatabaseStore } from "@/stores/database"
 import { useEditorStore } from "@/stores/editor"
+import { useDocumentStore } from "@/stores/document"
 import { storeToRefs } from "pinia"
 import { Editor, EditorContent, VueNodeViewRenderer } from "@tiptap/vue-3"
 import { useI18n } from "vue-i18n"
 import EditorContextMenu from "./EditorContextMenu.vue"
-const counter = useCounterStore()
-const document = useEditorStore()
-const { content_editable } = storeToRefs(counter)
-const { editor } = storeToRefs(document)
+const db_store = useDatabaseStore()
+const document = useDocumentStore()
+const editor_store = useEditorStore()
+const { editor } = storeToRefs(editor_store)
+const { content_editable } = storeToRefs(document)
 const { t } = useI18n()
 
 const emit = defineEmits(["update:modelValue"])
-
 const props = defineProps({
   modelValue: {
     type: String,
@@ -169,7 +170,7 @@ onBeforeUnmount(() => {
       :class="[
         toolbar ? 'with-toolbar' : '',
         content_editable ? 'is-editable' : 'is-preview',
-        counter.loaded_id === '' || editor.isEmpty ? 'is-empty' : '',
+        db_store.loaded_id === '' || editor.isEmpty ? 'is-empty' : '',
       ]"
       style="--scrollbar-size: 10px"
     >
@@ -198,10 +199,6 @@ onBeforeUnmount(() => {
 <style>
 .EditorTiptap {
   @apply grid w-full min-h-full;
-}
-
-.EditorTiptap:has(.is-empty) [data-reka-scroll-area-viewport] {
-  @apply !border-0;
 }
 
 [data-reka-scroll-area-viewport] {
@@ -272,7 +269,7 @@ onBeforeUnmount(() => {
 
     .tiptap td,
     .tiptap th {
-      @apply !border-background border-4 p-0;
+      @apply !border-secondary/20 border-4 p-0;
     }
 
     .ProseMirror-trailingBreak,

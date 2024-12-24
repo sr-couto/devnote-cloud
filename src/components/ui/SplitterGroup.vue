@@ -2,13 +2,13 @@
 import Tooltip from "@/components/ui/Tooltip.vue"
 
 import { shallowRef } from "vue"
-import { useCounterStore } from "@/stores/counter"
+import { useDocumentStore } from "@/stores/document"
 
 import { useKeyModifier, useMagicKeys, whenever } from "@vueuse/core"
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui"
 import { ArrowRightToLine } from "lucide-vue-next"
 
-const counter = useCounterStore()
+const document = useDocumentStore()
 const panelRef = shallowRef()
 const layout = shallowRef(0)
 const keys = useMagicKeys()
@@ -26,7 +26,7 @@ function expandAllScreen() {
     panelRef.value.collapse()
   }
   if (ExpandAll.value === true) {
-    counter.showSidebarDocuments = !counter.showSidebarDocuments
+    document.show_sidebar_documents = !document.show_sidebar_documents
   }
 }
 </script>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   AlertDialogRoot,
   AlertDialogPortal,
@@ -9,26 +9,27 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "reka-ui"
+
+import { db } from "@/db"
 import { useModalStore } from "@/stores/modal"
-import { useEditorStore } from "@/stores/editor"
+import { useDocumentStore } from "@/stores/document"
 
 import { X } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
-import { db } from "@/db"
-const editor_store = useEditorStore()
 
 const user = db.cloud.currentUser
+const document_store = useDocumentStore()
 const modal = useModalStore()
 const { t } = useI18n()
 
 async function logout() {
-  editor_store.clear_editor()
+  document_store.clear_editor()
   await db.cloud.logout() // Logout current user
 }
 </script>
 
 <template>
-  <AlertDialogRoot v-model:open="modal.showAlertLogout">
+  <AlertDialogRoot v-model:open="modal.show_alert_logout">
     <AlertDialogPortal>
       <AlertDialogOverlay class="fixed inset-0 z-[999] bg-black/80" />
       <AlertDialogContent

@@ -1,26 +1,23 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
 
-import { useCounterStore } from "@/stores/counter"
+import { useDatabaseStore } from "@/stores/database"
 import { useFocusStore } from "@/stores/focus"
-import { useEditorStore } from "@/stores/editor"
+import { useDocumentStore } from "@/stores/document"
 
 import { useMagicKeys, whenever, breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { Plus } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
 
-const editor_store = useEditorStore()
+const document = useDocumentStore()
 const focus_store = useFocusStore()
-const counter_store = useCounterStore()
-
-const { loaded_id } = storeToRefs(counter_store)
-
+const db_store = useDatabaseStore()
+const { loaded_id } = storeToRefs(db_store)
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const largerThanLg = breakpoints.greater("lg")
-const { t } = useI18n()
-
 const keys = useMagicKeys()
 const magicNewDocument = keys["ctrl+alt+n"]
+const { t } = useI18n()
 
 whenever(magicNewDocument, () => {
   new_document()
@@ -28,12 +25,12 @@ whenever(magicNewDocument, () => {
 
 function new_document() {
   if (largerThanLg.value === true) {
-    editor_store.clear_editor()
-    counter_store.content_editable = true
+    document.clear_editor()
+    document.content_editable = true
   } else {
-    editor_store.clear_editor()
-    counter_store.showSidebarDocuments = false
-    counter_store.content_editable = true
+    document.clear_editor()
+    document.show_sidebar_documents = false
+    document.content_editable = true
   }
   focusOnTitle()
 }
@@ -59,10 +56,10 @@ function focusOnTitle() {
       <span v-show="loaded_id === ''" class="flex items-center gap-1 text-primary">
         * {{ t("sidebar.newDocument") }}
         <span
-          v-show="counter_store.project_name"
+          v-show="db_store.project_name"
           class="inline-block font-bold truncate opacity-80 max-w-24"
         >
-          {{ counter_store.project_name }}
+          {{ db_store.project_name }}
         </span>
       </span>
       <span class="font-bold text-primary-foreground" v-show="loaded_id !== ''">

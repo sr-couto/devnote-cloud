@@ -9,13 +9,13 @@ import {
 import Tooltip from "@/components/ui/Tooltip.vue"
 
 import { computed, onMounted } from "vue"
-import { useCounterStore } from "@/stores/counter"
+import { useDocumentStore } from "@/stores/document"
 
 import { useColorMode, useStorage, useFavicon, useDark } from "@vueuse/core"
 import { SunMedium, Moon } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
 
-const counter = useCounterStore()
+const document_store = useDocumentStore()
 const mode = useColorMode()
 const isDark = useDark()
 const colorTheme = useStorage("theme", "theme-blue")
@@ -47,7 +47,7 @@ onMounted(() => {
     <DropdownMenuTrigger class="interactive">
       <Tooltip
         :name="t('settings.theme')"
-        :side="counter.showSidebarDocuments ? 'bottom' : 'right'"
+        :side="document_store.show_sidebar_documents ? 'bottom' : 'right'"
         :align="'end'"
       >
         <span
@@ -64,8 +64,8 @@ onMounted(() => {
       </Tooltip>
     </DropdownMenuTrigger>
     <DropdownMenuContent
-      :align="counter.showSidebarDocuments ? 'end' : 'center'"
-      :side="counter.showSidebarDocuments ? 'bottom' : 'right'"
+      :align="document_store.show_sidebar_documents ? 'end' : 'center'"
+      :side="document_store.show_sidebar_documents ? 'bottom' : 'right'"
       class="z-10 grid w-40 text-xs bg-secondary"
     >
       <DropdownMenuGroup>

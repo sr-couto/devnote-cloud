@@ -1,27 +1,25 @@
 <script setup lang="ts">
-import DriverJsInit from "@/stores/Tour.ts"
+import Driver from "@/composables/driver.ts"
 
 import { Plane } from "lucide-vue-next"
 import { useI18n } from "vue-i18n"
 import { useModalStore } from "@/stores/modal"
-
-import { useCounterStore } from "@/stores/counter"
+import { useDocumentStore } from "@/stores/document"
 import { storeToRefs } from "pinia"
 
-const counter = useCounterStore()
+const document = useDocumentStore()
 const modal = useModalStore()
-
-const { content_editable } = storeToRefs(counter)
-const { showSettings } = storeToRefs(modal)
+const { content_editable } = storeToRefs(document)
+const { show_settings } = storeToRefs(modal)
 
 const { t } = useI18n()
 
 const toggleTour = () => {
   localStorage.setItem("product_tour_seen", "false")
-  showSettings.value = false
+  show_settings.value = false
   content_editable.value = true
   setTimeout(() => {
-    DriverJsInit()
+    Driver()
   }, 300)
 }
 </script>

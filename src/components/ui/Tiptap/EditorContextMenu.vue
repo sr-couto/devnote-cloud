@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   ContextMenuContent,
   ContextMenuItem,
@@ -10,20 +10,19 @@ import {
 } from "reka-ui"
 
 import { useSettingsStore } from "@/stores/settings"
-import { useCounterStore } from "@/stores/counter"
 import { useEditorStore } from "@/stores/editor"
-
 import { storeToRefs } from "pinia"
 import { useI18n } from "vue-i18n"
 import { useAddImage } from "@/composables/useAddImage"
 import { useAddVideo } from "@/composables/useAddVideo"
 import { useSetVideo } from "@/composables/useSetVideo"
 import { useAddImageBase64 } from "@/composables/useAddImageBase64"
-const counter = useCounterStore()
+import { useDocumentStore } from "@/stores/document"
 
 const settings = useSettingsStore()
-const document = useEditorStore()
-const { editor } = storeToRefs(document)
+const document = useDocumentStore()
+const editor_store = useEditorStore()
+const { editor } = storeToRefs(editor_store)
 const { addImage } = useAddImage(editor)
 const { addVideo } = useAddVideo(editor)
 const { setVideo } = useSetVideo(editor)
@@ -32,13 +31,13 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <ContextMenuRoot v-if="counter.content_editable">
+  <ContextMenuRoot v-if="document.content_editable">
     <ContextMenuTrigger as-child>
       <slot />
     </ContextMenuTrigger>
     <ContextMenuPortal>
       <ContextMenuContent
-        v-if="counter.content_editable"
+        v-if="document.content_editable"
         class="min-w-[220px] z-10 font-mono bg-background ring-1 ring-primary text-foreground outline-none rounded p-1.5 shadow"
         :side-offset="5"
       >
@@ -185,7 +184,7 @@ const { t } = useI18n()
       </ContextMenuContent>
     </ContextMenuPortal>
   </ContextMenuRoot>
-  <template v-if="!counter.content_editable">
+  <template v-if="!document.content_editable">
     <slot />
   </template>
 </template>

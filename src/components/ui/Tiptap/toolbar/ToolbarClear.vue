@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ToolbarButton } from "reka-ui"
 
 import { useEditorStore } from "@/stores/editor"

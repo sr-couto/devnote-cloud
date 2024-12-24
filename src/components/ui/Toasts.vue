@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useRegisterSW } from "virtual:pwa-register/vue"
 import { toast } from "vue-sonner"
 import { watch } from "vue"

@@ -4,38 +4,39 @@ import EditorToolbar from "@/components/ui/Tiptap/EditorToolbar.vue"
 import EditorTitle from "@/components/ui/Tiptap/EditorTitle.vue"
 import SplashScreen from "@/components/ui/SplashScreen.vue"
 
-import { useCounterStore } from "@/stores/counter"
+import { useDatabaseStore } from "@/stores/database"
 import { useSettingsStore } from "@/stores/settings"
-import { useEditorStore } from "@/stores/editor"
+import { useDocumentStore } from "@/stores/document"
 
 import { useI18n } from "vue-i18n"
 import { storeToRefs } from "pinia"
 import { useIsMobile } from "@/composables/useIsMobile"
 
 const settings = useSettingsStore()
-const counter = useCounterStore()
-const document = useEditorStore()
-
-const { content_editable } = storeToRefs(counter)
-const { showEditorToolbar } = storeToRefs(document)
-
+const db_store = useDatabaseStore()
+const document = useDocumentStore()
+const { content_editable, show_editor_toolbar } = storeToRefs(document)
 const { isMobile } = useIsMobile()
 const { t } = useI18n()
 </script>
 
 <template>
-  <div :key="counter.loaded_id">
+  <div :key="db_store.loaded_id">
     <article class="editor">
-      <div class="editor-top" v-if="content_editable" :class="showEditorToolbar && 'with-toolbar'">
+      <div
+        class="editor-top"
+        v-if="content_editable"
+        :class="show_editor_toolbar && 'with-toolbar'"
+      >
         <EditorTitle />
-        <EditorToolbar v-if="showEditorToolbar" />
+        <EditorToolbar v-if="show_editor_toolbar" />
         <button
-          @click="counter.create_project()"
-          v-show="!counter.loaded_id"
-          v-if="counter.content_editable"
-          :disabled="counter.project_name === ''"
+          @click="db_store.create_project()"
+          v-show="!db_store.loaded_id"
+          v-if="document.content_editable"
+          :disabled="db_store.project_name === ''"
           :class="
-            counter.project_name ?
+            db_store.project_name ?
               'bg-primary text-primary-foreground hover:bg-primary/80'
             : 'disabled bg-secondary pointer-events-none'
           "
@@ -45,27 +46,27 @@ const { t } = useI18n()
         </button>
       </div>
       <Editor
-        v-model="counter.project_body"
-        :editable="!counter.content_editable"
-        :toolbar="showEditorToolbar"
+        v-model="db_store.project_body"
+        :editable="!document.content_editable"
+        :toolbar="show_editor_toolbar"
       >
         <h2
           v-show="!content_editable"
           class="px-0 md:pl-5 md:p-4 mb-0 font-serif text-4xl md:text-5xl text-foreground font-black text-balance"
           :class="settings.show_heading_one_preview ? '' : 'sr-only'"
         >
-          {{ counter.project_name }}
+          {{ db_store.project_name }}
         </h2>
       </Editor>
-      <SplashScreen v-if="counter.loaded_id === '' && content_editable === false" />
+      <SplashScreen v-if="db_store.loaded_id === '' && content_editable === false" />
     </article>
     <button
-      @click="counter.create_project()"
-      v-show="!counter.loaded_id"
-      v-if="counter.content_editable"
-      :disabled="counter.project_name === ''"
+      @click="db_store.create_project()"
+      v-show="!db_store.loaded_id"
+      v-if="content_editable"
+      :disabled="db_store.project_name === ''"
       :class="
-        counter.project_name ?
+        db_store.project_name ?
           'bg-primary text-primary-foreground hover:bg-primary/80'
         : 'disabled bg-secondary pointer-events-none'
       "
