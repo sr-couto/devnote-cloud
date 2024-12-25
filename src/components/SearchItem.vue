@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 import { Circle } from "lucide-vue-next"
 import { storeToRefs } from "pinia"
@@ -30,7 +30,6 @@ const props = defineProps({
 
 function set_document(id) {
   db_store.select_id = id
-  console.log(!hasUnsavedChanges())
   if (hasUnsavedChanges()) {
     modal.show_alert_unsaved_changes = true
     return
@@ -39,8 +38,8 @@ function set_document(id) {
   if (!largerThanLg.value) {
     document.show_sidebar_documents = false
   }
+  editor.value.commands.focus()
   setTimeout(() => {
-    editor.value.commands.focus()
   }, 100)
 }
 

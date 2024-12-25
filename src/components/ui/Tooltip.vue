@@ -44,13 +44,9 @@ const props = defineProps({
       </TooltipTrigger>
       <TooltipPortal>
         <TooltipContent
-          :side="props.side"
           class="print:!hidden ring-primary ring-1 select-none max-w-80 min-h-7 bg-secondary px-2.5 py-1.5 flex gap-2 items-center justify-center"
           :class="props.shortcut ? 'flex-col' : ' '"
           :side-offset="6"
-          :align="props.align"
-          :align-offset="props.alignOffset"
-          style="-webkit-font-smoothing: subpixel-antialiased"
         >
           <span
             v-show="props.name"
@@ -59,7 +55,7 @@ const props = defineProps({
           >
           <kbd
             v-show="props.shortcut"
-            class="pointer-events-none uppercase inline-flex h-5 select-none items-center gap-1 rounded bg-primary/20 px-1.5 font-mono text-[11px] text-secondary-foreground font-extrabold opacity-100"
+            class="pointer-events-none uppercase inline-flex h-5 select-none items-center gap-1 rounded px-1.5 font-mono text-[11px] text-secondary-foreground font-extrabold "
           >
             {{ props.shortcut }}
           </kbd>

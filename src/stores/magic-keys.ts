@@ -18,17 +18,17 @@ export const useMagicKeysStore = defineStore("magic-keys", () => {
   const { show_settings, show_delete_document_modal, show_commandbar } = storeToRefs(modal)
   const { editor } = storeToRefs(editor_store)
 
-  const magic_toggle_preview = keys["ctrl+alt+p"]
-  const magic_show_settings = keys["ctrl+alt+w"]
-  const magic_previous_document = keys["ctrl+ArrowUp"]
-  const magic_next_document = keys["ctrl+ArrowDown"]
-  const magic_focus_title = keys["ctrl+shift+alt+ArrowRight"]
-  const magic_focus_sidebar = keys["ctrl+shift+alt+ArrowLeft"]
-  const magic_focus_editor = keys["ctrl+shift+alt+e"]
-  const magic_editor_toolbar = keys["ctrl+shift+alt+t"]
-  const magic_delete_document = keys["shift+delete"]
-  const magic_ctrl_m = keys["ctrl+m"]
   const magic_command_menu = keys["ctrl+alt+o"]
+  const magic_ctrl_m = keys["ctrl+m"]
+  const magic_delete_document = keys["shift+delete"]
+  const magic_editor_toolbar = keys["ctrl+shift+alt+t"]
+  const magic_focus_editor = keys["ctrl+shift+alt+e"]
+  const magic_focus_sidebar = keys["ctrl+shift+alt+ArrowLeft"]
+  const magic_focus_title = keys["ctrl+shift+alt+ArrowRight"]
+  const magic_next_document = keys["ctrl+ArrowDown"]
+  const magic_previous_document = keys["ctrl+ArrowUp"]
+  const magic_show_settings = keys["ctrl+alt+w"]
+  const magic_toggle_preview = keys["ctrl+alt+p"]
 
   whenever(magic_focus_sidebar, (n) => {
     if (n) focus.setFocusSidebar()
@@ -74,7 +74,7 @@ export const useMagicKeysStore = defineStore("magic-keys", () => {
   })
 
   whenever(magic_command_menu, (n) => {
-    if (n) modal.show_commandbar = true
+    if (n)show_commandbar.value = true
   })
 
   return {
